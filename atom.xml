@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-06-03T13:23:13.000Z</updated>
+  <updated>2017-06-04T06:10:35.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,12 +20,12 @@
     <link href="http://yoursite.com/2017/06/03/Value-and-Reference-Type/"/>
     <id>http://yoursite.com/2017/06/03/Value-and-Reference-Type/</id>
     <published>2017-06-03T13:17:03.000Z</published>
-    <updated>2017-06-03T13:23:13.000Z</updated>
+    <updated>2017-06-04T06:10:35.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="Swift中值类型和引用类型"><a href="#Swift中值类型和引用类型" class="headerlink" title="Swift中值类型和引用类型"></a>Swift中值类型和引用类型</h1><p><em>本文主要介绍值类型、以及使用Struct作为数据模型的注意事项</em></p>
 <h2 id="值类型（value-type）"><a href="#值类型（value-type）" class="headerlink" title="值类型（value type）"></a>值类型（value type）</h2><p><strong>值类型：</strong>每次分配给变量/常量或者作为参数传递到函数时，都会重新创建（复制）一个新的实例。</p>
 <p>Swift 中的所有的内建类型都是值类型，不仅包括了传统意义像 Int，Double这些，甚至连 String，Array 以及 Dictionary 都是值类型的(与OC不同), swift中所有的Struct 和 enum 都是值类型，值类型每次初始化以后，将它分配或者传递时，实际上是分配或传递了它的一个拷贝。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">struct Point &#123;</div><div class="line">    var x : Int</div><div class="line">    var y : Int</div><div class="line">    init(x:Int, y:Int) &#123;</div><div class="line">        self.x = x</div><div class="line">        self.y = y</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"> var aPoint = Point(x: 10, y: 10)</div><div class="line"> var bPoint = aPoint</div><div class="line"> bPoint.x = 5</div><div class="line"> print(aPoint)</div><div class="line"> print(bPoint)</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Point</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> x : <span class="type">Int</span></div><div class="line">    <span class="keyword">var</span> y : <span class="type">Int</span></div><div class="line">    <span class="keyword">init</span>(x:<span class="type">Int</span>, y:<span class="type">Int</span>) &#123;</div><div class="line">        <span class="keyword">self</span>.x = x</div><div class="line">        <span class="keyword">self</span>.y = y</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"> <span class="keyword">var</span> aPoint = <span class="type">Point</span>(x: <span class="number">10</span>, y: <span class="number">10</span>)</div><div class="line"> <span class="keyword">var</span> bPoint = aPoint</div><div class="line"> bPoint.x = <span class="number">5</span></div><div class="line"> <span class="built_in">print</span>(aPoint)</div><div class="line"> <span class="built_in">print</span>(bPoint)</div></pre></td></tr></table></figure>
 <p><strong>打印结果</strong></p>
 <p>Point(x: 10, y: 10)</p>
 <p>Point(x: 5, y: 10)</p>

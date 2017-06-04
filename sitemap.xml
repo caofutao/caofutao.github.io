@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2017/06/03/Value-and-Reference-Type/</loc>
+    
+    <lastmod>2017-06-04T06:10:35.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2017/06/03/My-Heart-Will-Go-On/</loc>
     
     <lastmod>2017-06-04T05:57:39.000Z</lastmod>
@@ -12,13 +19,6 @@
     <loc>http://yoursite.com/tags/index.html</loc>
     
     <lastmod>2017-06-03T14:25:18.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2017/06/03/Value-and-Reference-Type/</loc>
-    
-    <lastmod>2017-06-03T13:23:13.000Z</lastmod>
     
   </url>
   
