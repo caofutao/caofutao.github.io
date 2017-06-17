@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-06-17T10:08:27.000Z</updated>
+  <updated>2017-06-17T10:12:38.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/06/13/iOS%E5%BA%94%E7%94%A8%E5%86%85%E8%B4%AD%E4%B9%B0IAP/"/>
     <id>http://yoursite.com/2017/06/13/iOS应用内购买IAP/</id>
     <published>2017-06-13T01:51:30.000Z</published>
-    <updated>2017-06-17T10:08:27.000Z</updated>
+    <updated>2017-06-17T10:12:38.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="iOS应用内购买IAP"><a href="#iOS应用内购买IAP" class="headerlink" title="iOS应用内购买IAP"></a>iOS应用内购买IAP</h1><blockquote>
 <p>最近苹果针对iOS应用软件开发者的指引政策进行了修改，，第一次明确指出用户支付小费或者打赏，必须通过苹果的支付渠道，也就是不能绕开苹果iOS管理机制。微信在iOS版本取消了打赏功能，知乎则是向苹果低了头…<br>苹果在相关文档中提到，如果开发者想在iOS软件提供下述功能（比如用户订阅、游戏内虚拟货币、获取高端会员内容、或者提供完整的功能版本等），则开发者必须使用软件内购买。</p>
@@ -83,7 +83,7 @@
     </summary>
     
     
-      <category term="swift" scheme="http://yoursite.com/tags/swift/"/>
+      <category term="Swift" scheme="http://yoursite.com/tags/Swift/"/>
     
       <category term="IAP" scheme="http://yoursite.com/tags/IAP/"/>
     
