@@ -95,25 +95,30 @@
 
 
 
-<meta name="description" content="焦点
-ImageView自带focus特效
-guideFocus
-na">
+<meta name="description" content="写在前面的话
+之前一直觉得Apple TV 是个神奇的东西，迷一样的事物。国内基本见不到它的影子，而公司要做一个Apple TV app ，作为一名资深iOS开发者，怎么能不兴奋呢！哈哈😝在使用Apple TV之后，感觉真的比国内安卓系统的智能电视要惊艳很多，遥控器都那么与众不同！操作方便，也赏心悦目；缺点是不能看各个电视频道
+
+前期调研
+相关资料很少，国内基本没有啥资料，只能看英文资料啦！推荐">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TVOS开发技巧">
 <meta property="og:url" content="http://yoursite.com/2017/06/19/TVOS开发技巧/index.html">
 <meta property="og:site_name" content="威立山">
-<meta property="og:description" content="焦点
-ImageView自带focus特效
-guideFocus
-na">
-<meta property="og:updated_time" content="2017-06-29T15:41:44.000Z">
+<meta property="og:description" content="写在前面的话
+之前一直觉得Apple TV 是个神奇的东西，迷一样的事物。国内基本见不到它的影子，而公司要做一个Apple TV app ，作为一名资深iOS开发者，怎么能不兴奋呢！哈哈😝在使用Apple TV之后，感觉真的比国内安卓系统的智能电视要惊艳很多，遥控器都那么与众不同！操作方便，也赏心悦目；缺点是不能看各个电视频道
+
+前期调研
+相关资料很少，国内基本没有啥资料，只能看英文资料啦！推荐">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tKfTcly1fh4tlr07wcg30hs0b4hdv.gif">
+<meta property="og:updated_time" content="2017-07-01T16:08:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TVOS开发技巧">
-<meta name="twitter:description" content="焦点
-ImageView自带focus特效
-guideFocus
-na">
+<meta name="twitter:description" content="写在前面的话
+之前一直觉得Apple TV 是个神奇的东西，迷一样的事物。国内基本见不到它的影子，而公司要做一个Apple TV app ，作为一名资深iOS开发者，怎么能不兴奋呢！哈哈😝在使用Apple TV之后，感觉真的比国内安卓系统的智能电视要惊艳很多，遥控器都那么与众不同！操作方便，也赏心悦目；缺点是不能看各个电视频道
+
+前期调研
+相关资料很少，国内基本没有啥资料，只能看英文资料啦！推荐">
+<meta name="twitter:image" content="https://ws4.sinaimg.cn/large/006tKfTcly1fh4tlr07wcg30hs0b4hdv.gif">
 
 
 
@@ -386,11 +391,23 @@ na">
       
 
       
-        <ul>
-<li>焦点</li>
-<li>ImageView自带focus特效</li>
+        <h1 id="写在前面的话"><a href="#写在前面的话" class="headerlink" title="写在前面的话"></a>写在前面的话</h1><blockquote>
+<p>之前一直觉得Apple TV 是个神奇的东西，迷一样的事物。国内基本见不到它的影子，而公司要做一个Apple TV app ，作为一名资深iOS开发者，怎么能不兴奋呢！哈哈😝<br>在使用Apple TV之后，感觉真的比国内安卓系统的智能电视要惊艳很多，遥控器都那么与众不同！操作方便，也赏心悦目；缺点是不能看各个电视频道</p>
+</blockquote>
+<h1 id="前期调研"><a href="#前期调研" class="headerlink" title="前期调研"></a>前期调研</h1><ul>
+<li>相关资料很少，国内基本没有啥资料，只能看英文资料啦！推荐一本书籍《tvOS Apprentice》入门</li>
+<li>使用Swift进行开发，国外资料基本都用Swift写，赶紧上船…</li>
+</ul>
+<h1 id="讲点有趣的"><a href="#讲点有趣的" class="headerlink" title="讲点有趣的"></a>讲点有趣的</h1><h2 id="UIView的focus特效"><a href="#UIView的focus特效" class="headerlink" title="UIView的focus特效"></a>UIView的focus特效</h2><ul>
+<li><p>在电视屏幕你看到App里展示的界面，大部分都是UIImageView呈现的，图片比文字更能吸引眼球。<br><img src="https://ws4.sinaimg.cn/large/006tKfTcly1fh4tlr07wcg30hs0b4hdv.gif" alt="ImageView Focus"><br>看到没有，但你用手指在遥控器触摸区打转时，获得焦点的图片会被放大，随手指旋转并带有眩光的视觉！想要这样的效果设置UIImageView的自带属性：<code>adjustsImageWhenAncestorFocused</code>即可，真棒！！！</p>
+</li>
+<li><p>UIView 有个属性<code>canBecomeFocused</code>可以设置是否能获得焦点状态，设置为<code>true</code>，然后重写<code>didUpdateFocus()</code>方法</p>
+</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">didUpdateFocus</span><span class="params">(<span class="keyword">in</span> context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator)</span></span> &#123;</div><div class="line">        </div><div class="line">        <span class="keyword">if</span> context.nextFocusedView == <span class="keyword">self</span> &#123; <span class="comment">// 获得焦点</span></div><div class="line">            <span class="keyword">self</span>.transform = <span class="type">CGAffineTransform</span>(scaleX: <span class="number">1.1</span>, y: <span class="number">1.1</span>)</div><div class="line">            <span class="keyword">self</span>.layer.shadowColor = <span class="type">UIColor</span>.black.alpha(<span class="number">0.36</span>).cgColor</div><div class="line">            <span class="keyword">self</span>.layer.shadowOffset = <span class="type">CGSize</span>(width: <span class="number">0</span>, height: <span class="number">30</span>)</div><div class="line">            <span class="comment">//设置阴影，模糊效果的半径</span></div><div class="line">            <span class="keyword">self</span>.layer.shadowRadius = <span class="number">50</span></div><div class="line">            <span class="keyword">self</span>.layer.shadowOpacity = <span class="number">1.0</span></div><div class="line">        &#125;<span class="keyword">else</span>&#123; <span class="comment">//失去焦点</span></div><div class="line">            <span class="keyword">self</span>.transform = <span class="type">CGAffineTransform</span>.identity</div><div class="line">            <span class="keyword">self</span>.layer.shadowOpacity = <span class="number">0.0</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h1 id="UIFocusGuide"><a href="#UIFocusGuide" class="headerlink" title="UIFocusGuide"></a>UIFocusGuide</h1><ul>
 <li>guideFocus</li>
-<li>na</li>
+<li>图片圆角</li>
 </ul>
 
       
@@ -495,8 +512,17 @@ na">
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/uploads/avatar.jpeg"
@@ -524,7 +550,7 @@ na">
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -585,6 +611,22 @@ na">
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面的话"><span class="nav-number">1.</span> <span class="nav-text">写在前面的话</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#前期调研"><span class="nav-number">2.</span> <span class="nav-text">前期调研</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#讲点有趣的"><span class="nav-number">3.</span> <span class="nav-text">讲点有趣的</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#UIView的focus特效"><span class="nav-number">3.1.</span> <span class="nav-text">UIView的focus特效</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UIFocusGuide"><span class="nav-number">4.</span> <span class="nav-text">UIFocusGuide</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

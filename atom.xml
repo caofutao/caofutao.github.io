@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-07-01T04:51:38.000Z</updated>
+  <updated>2017-07-01T05:01:26.000Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2017/06/29/NSURLProtocol%E9%BB%91%E9%AD%94%E6%B3%95/"/>
     <id>http://yoursite.com/2017/06/29/NSURLProtocol黑魔法/</id>
     <published>2017-06-29T15:33:54.000Z</published>
-    <updated>2017-07-01T04:51:38.000Z</updated>
+    <updated>2017-07-01T05:01:26.000Z</updated>
     
     <content type="html"><![CDATA[<h1 id="写在前面的话"><a href="#写在前面的话" class="headerlink" title="写在前面的话"></a>写在前面的话</h1><blockquote>
 <p>实际应用：在公司的海外项目中，在App中嵌入YouTube网页，当进入一个视频详情页时，视频会自动播放。而需求是不要自动播放，让用户点击我们自定义的播放按钮把视频投到电视上播放。下面让我们一起学习下如何拦截网络请求。</p>
@@ -77,9 +77,9 @@
     </summary>
     
     
-      <category term="网络" scheme="http://yoursite.com/tags/%E7%BD%91%E7%BB%9C/"/>
-    
       <category term="NSURLProtocol" scheme="http://yoursite.com/tags/NSURLProtocol/"/>
+    
+      <category term="NetWork" scheme="http://yoursite.com/tags/NetWork/"/>
     
   </entry>
   
@@ -88,25 +88,32 @@
     <link href="http://yoursite.com/2017/06/19/TVOS%E5%BC%80%E5%8F%91%E6%8A%80%E5%B7%A7/"/>
     <id>http://yoursite.com/2017/06/19/TVOS开发技巧/</id>
     <published>2017-06-19T04:43:11.000Z</published>
-    <updated>2017-06-29T15:41:44.000Z</updated>
+    <updated>2017-07-01T16:08:17.000Z</updated>
     
-    <content type="html"><![CDATA[<ul>
-<li>焦点</li>
-<li>ImageView自带focus特效</li>
+    <content type="html"><![CDATA[<h1 id="写在前面的话"><a href="#写在前面的话" class="headerlink" title="写在前面的话"></a>写在前面的话</h1><blockquote>
+<p>之前一直觉得Apple TV 是个神奇的东西，迷一样的事物。国内基本见不到它的影子，而公司要做一个Apple TV app ，作为一名资深iOS开发者，怎么能不兴奋呢！哈哈😝<br>在使用Apple TV之后，感觉真的比国内安卓系统的智能电视要惊艳很多，遥控器都那么与众不同！操作方便，也赏心悦目；缺点是不能看各个电视频道</p>
+</blockquote>
+<h1 id="前期调研"><a href="#前期调研" class="headerlink" title="前期调研"></a>前期调研</h1><ul>
+<li>相关资料很少，国内基本没有啥资料，只能看英文资料啦！推荐一本书籍《tvOS Apprentice》入门</li>
+<li>使用Swift进行开发，国外资料基本都用Swift写，赶紧上船…</li>
+</ul>
+<h1 id="讲点有趣的"><a href="#讲点有趣的" class="headerlink" title="讲点有趣的"></a>讲点有趣的</h1><h2 id="UIView的focus特效"><a href="#UIView的focus特效" class="headerlink" title="UIView的focus特效"></a>UIView的focus特效</h2><ul>
+<li><p>在电视屏幕你看到App里展示的界面，大部分都是UIImageView呈现的，图片比文字更能吸引眼球。<br><img src="https://ws4.sinaimg.cn/large/006tKfTcly1fh4tlr07wcg30hs0b4hdv.gif" alt="ImageView Focus"><br>看到没有，但你用手指在遥控器触摸区打转时，获得焦点的图片会被放大，随手指旋转并带有眩光的视觉！想要这样的效果设置UIImageView的自带属性：<code>adjustsImageWhenAncestorFocused</code>即可，真棒！！！</p>
+</li>
+<li><p>UIView 有个属性<code>canBecomeFocused</code>可以设置是否能获得焦点状态，设置为<code>true</code>，然后重写<code>didUpdateFocus()</code>方法</p>
+</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">didUpdateFocus</span><span class="params">(<span class="keyword">in</span> context: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator)</span></span> &#123;</div><div class="line">        </div><div class="line">        <span class="keyword">if</span> context.nextFocusedView == <span class="keyword">self</span> &#123; <span class="comment">// 获得焦点</span></div><div class="line">            <span class="keyword">self</span>.transform = <span class="type">CGAffineTransform</span>(scaleX: <span class="number">1.1</span>, y: <span class="number">1.1</span>)</div><div class="line">            <span class="keyword">self</span>.layer.shadowColor = <span class="type">UIColor</span>.black.alpha(<span class="number">0.36</span>).cgColor</div><div class="line">            <span class="keyword">self</span>.layer.shadowOffset = <span class="type">CGSize</span>(width: <span class="number">0</span>, height: <span class="number">30</span>)</div><div class="line">            <span class="comment">//设置阴影，模糊效果的半径</span></div><div class="line">            <span class="keyword">self</span>.layer.shadowRadius = <span class="number">50</span></div><div class="line">            <span class="keyword">self</span>.layer.shadowOpacity = <span class="number">1.0</span></div><div class="line">        &#125;<span class="keyword">else</span>&#123; <span class="comment">//失去焦点</span></div><div class="line">            <span class="keyword">self</span>.transform = <span class="type">CGAffineTransform</span>.identity</div><div class="line">            <span class="keyword">self</span>.layer.shadowOpacity = <span class="number">0.0</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h1 id="UIFocusGuide"><a href="#UIFocusGuide" class="headerlink" title="UIFocusGuide"></a>UIFocusGuide</h1><ul>
 <li>guideFocus</li>
-<li>na</li>
+<li>图片圆角</li>
 </ul>
 ]]></content>
     
     <summary type="html">
     
-      &lt;ul&gt;
-&lt;li&gt;焦点&lt;/li&gt;
-&lt;li&gt;ImageView自带focus特效&lt;/li&gt;
-&lt;li&gt;guideFocus&lt;/li&gt;
-&lt;li&gt;na&lt;/li&gt;
-&lt;/ul&gt;
-
+      &lt;h1 id=&quot;写在前面的话&quot;&gt;&lt;a href=&quot;#写在前面的话&quot; class=&quot;headerlink&quot; title=&quot;写在前面的话&quot;&gt;&lt;/a&gt;写在前面的话&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;之前一直觉得Apple TV 是个神奇的东西，迷一样的事物。国内基本见不到它的影子
     
     </summary>
     
