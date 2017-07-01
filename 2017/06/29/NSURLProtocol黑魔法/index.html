@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="网络,NSURLProtocol," />
 
 
 
@@ -95,15 +95,27 @@
 
 
 
-<meta name="description" content="Day Day Up!">
-<meta property="og:type" content="website">
-<meta property="og:title" content="威立山">
-<meta property="og:url" content="http://yoursite.com/tags/Swift/index.html">
+<meta name="description" content="写在前面的话
+实际应用：在公司的海外项目中，在App中嵌入YouTube网页，当进入一个视频详情页时，视频会自动播放。而需求是不要自动播放，让用户点击我们自定义的播放按钮把视频投到电视上播放。下面让我们一起学习下如何拦截网络请求。
+
+URL Loading System如图所示，URL Loading System是iOS一系列网络请求类的集合，包括已经过期不用的NSConnection和现在流行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NSURLProtocol黑魔法">
+<meta property="og:url" content="http://yoursite.com/2017/06/29/NSURLProtocol黑魔法/index.html">
 <meta property="og:site_name" content="威立山">
-<meta property="og:description" content="Day Day Up!">
+<meta property="og:description" content="写在前面的话
+实际应用：在公司的海外项目中，在App中嵌入YouTube网页，当进入一个视频详情页时，视频会自动播放。而需求是不要自动播放，让用户点击我们自定义的播放按钮把视频投到电视上播放。下面让我们一起学习下如何拦截网络请求。
+
+URL Loading System如图所示，URL Loading System是iOS一系列网络请求类的集合，包括已经过期不用的NSConnection和现在流行">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tKfTcly1fh2yx18u8oj312q0o8q8a.jpg">
+<meta property="og:updated_time" content="2017-07-01T04:51:38.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="威立山">
-<meta name="twitter:description" content="Day Day Up!">
+<meta name="twitter:title" content="NSURLProtocol黑魔法">
+<meta name="twitter:description" content="写在前面的话
+实际应用：在公司的海外项目中，在App中嵌入YouTube网页，当进入一个视频详情页时，视频会自动播放。而需求是不要自动播放，让用户点击我们自定义的播放按钮把视频投到电视上播放。下面让我们一起学习下如何拦截网络请求。
+
+URL Loading System如图所示，URL Loading System是iOS一系列网络请求类的集合，包括已经过期不用的NSConnection和现在流行">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/006tKfTcly1fh2yx18u8oj312q0o8q8a.jpg">
 
 
 
@@ -131,13 +143,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/Swift/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/06/29/NSURLProtocol黑魔法/"/>
 
 
 
 
 
-  <title>标签: Swift | 威立山</title>
+  <title>NSURLProtocol黑魔法 | 威立山</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -173,7 +185,7 @@
     
   
 
-  <div class="container sidebar-position-left  ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -291,100 +303,205 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h1>Swift<small>标签</small>
-      </h1>
-    </div>
-
+  <div id="posts" class="posts-expand">
     
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/06/19/TVOS开发技巧/" itemprop="url">
-              
-                <span itemprop="name">TVOS开发技巧</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-06-19T12:43:11+08:00"
-              content="2017-06-19" >
-          06-19
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/06/13/iOS应用内购买IAP/" itemprop="url">
-              
-                <span itemprop="name">iOS应用内购买IAP</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-06-13T09:51:30+08:00"
-              content="2017-06-13" >
-          06-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/06/03/Value-and-Reference-Type/" itemprop="url">
-              
-                <span itemprop="name">Value and Reference Type</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-06-03T21:17:03+08:00"
-              content="2017-06-03" >
-          06-03
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-  </div>
 
   
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/29/NSURLProtocol黑魔法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Willishine">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="威立山">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">NSURLProtocol黑魔法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-29T23:33:54+08:00">
+                2017-06-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/29/NSURLProtocol黑魔法/" class="leancloud_visitors" data-flag-title="NSURLProtocol黑魔法">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="写在前面的话"><a href="#写在前面的话" class="headerlink" title="写在前面的话"></a>写在前面的话</h1><blockquote>
+<p>实际应用：在公司的海外项目中，在App中嵌入YouTube网页，当进入一个视频详情页时，视频会自动播放。而需求是不要自动播放，让用户点击我们自定义的播放按钮把视频投到电视上播放。下面让我们一起学习下如何拦截网络请求。</p>
+</blockquote>
+<h1 id="URL-Loading-System"><a href="#URL-Loading-System" class="headerlink" title="URL Loading System"></a>URL Loading System</h1><p><img src="https://ws1.sinaimg.cn/large/006tKfTcly1fh2yx18u8oj312q0o8q8a.jpg" alt="URL Loading System"><br>如图所示，URL Loading System是iOS一系列网络请求类的集合，包括已经过期不用的NSConnection和现在流行的NSURLSession，还包括一些请求认证的类，一个sessionConfig的类，还有关于处理请求缓存的类等，当然还包括我们要说的这个NSURLProtocol类。</p>
+<h1 id="NSURLProtocol"><a href="#NSURLProtocol" class="headerlink" title="NSURLProtocol"></a>NSURLProtocol</h1><p>   NSURLProtocol可以让我们拦截程序中的一切网络请求，因为NSURLProtocol是一个虚基类，所以不能直接使用它，要想使用它就必须自定义一个类成为他的子类，然后实现他里面的必须实现的一些方法。主要进行如下拦截处理:</p>
+<ul>
+<li>自定义请求 和 响应</li>
+<li>过滤掉某些请求不让其发起、以及修改</li>
+<li>提供 自定义的全局缓存 逻辑</li>
+<li>重定向 网络请求</li>
+<li>提供 HTTP Mocking (方便前期测试)</li>
+</ul>
+<h1 id="如何拦截网络请求"><a href="#如何拦截网络请求" class="headerlink" title="如何拦截网络请求"></a>如何拦截网络请求</h1><h2 id="注册自定义的URLProtocol子类"><a href="#注册自定义的URLProtocol子类" class="headerlink" title="注册自定义的URLProtocol子类"></a>注册自定义的URLProtocol子类</h2><ul>
+<li>在appDelegate中，注册自己拦截请求的URLProtocol子类;相对应的也有unregistClass方法，不让某个子类起作用</li>
+</ul>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">BOOL</span>)application:(<span class="built_in">UIApplication</span> *)application didFinishLaunchingWithOptions:(<span class="built_in">NSDictionary</span> *)launchOptions &#123;</div><div class="line">   </div><div class="line">   [<span class="built_in">NSURLProtocol</span> registerClass:[WSURLProtocol <span class="keyword">class</span>]];</div><div class="line">   </div><div class="line">   <span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="子类必须实现的方法"><a href="#子类必须实现的方法" class="headerlink" title="子类必须实现的方法"></a>子类必须实现的方法</h2><ul>
+<li><code>+ (BOOL)canInitWithRequest:(NSURLRequest *)request</code><br>每次有一个请求的时候都会调用这个方法，在这个方法里面判断这个请求是否需要被处理拦截，如果返回YES就代表这个request需要被处理，反之就是不需要被处理。</li>
+</ul>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">+ (<span class="built_in">BOOL</span>)canInitWithRequest:(<span class="built_in">NSURLRequest</span> *)request &#123;</div><div class="line">	<span class="comment">//判断是否处理过，防止死循环</span></div><div class="line">    <span class="keyword">if</span> ([<span class="built_in">NSURLProtocol</span> propertyForKey:protocolKey inRequest:request]) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">NO</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//只拦截http和https请求</span></div><div class="line">    <span class="built_in">NSString</span> *scheme = [[request URL] scheme];</div><div class="line">    <span class="keyword">if</span> ([scheme caseInsensitiveCompare:<span class="string">@"http"</span>] == <span class="built_in">NSOrderedSame</span> ||</div><div class="line">        [scheme caseInsensitiveCompare:<span class="string">@"https"</span>] == <span class="built_in">NSOrderedSame</span>) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">YES</span>;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> <span class="literal">NO</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><code>+ (NSURLRequest *) canonicalRequestForRequest:(NSURLRequest *)request</code>  通常该方法你可以简单的直接返回request，但也可以在这里修改request，比如添加header，修改host等，并返回一个新的request，这是个抽象方法，子类必须实现。  </li>
+</ul>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">+ (<span class="built_in">NSURLRequest</span> *)canonicalRequestForRequest:	(<span class="built_in">NSURLRequest</span> *)request &#123;</div><div class="line">    <span class="built_in">NSMutableURLRequest</span> *request = [request mutableCopy];</div><div class="line">    <span class="comment">//把访问百度的request改为访问Google了</span></div><div class="line">    request.URL = [<span class="built_in">NSURL</span> URLWithString:<span class="string">@"http://www.google.com"</span>];</div><div class="line">    <span class="keyword">return</span> request;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><p><code>+ (BOOL)requestIsCacheEquivalent:(NSURLRequest *)a toRequest:(NSURLRequest *)b</code>  可用来使用缓存数据结束此次网络请求</p>
+</li>
+<li><p><code>- (void)startLoading</code>  开始请求</p>
+</li>
+</ul>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)startLoading &#123;</div><div class="line">	<span class="built_in">NSMutableURLRequest</span> *request = [<span class="keyword">self</span>.request mutableCopy];</div><div class="line">	<span class="comment">// 标记request已处理    </span></div><div class="line">    [<span class="built_in">NSURLProtocol</span> setProperty:@(<span class="literal">YES</span>) forKey:protocolKey inRequest:request];</div><div class="line">    </div><div class="line">    <span class="comment">//使用NSURLSession继续把重定向的request发送出去</span></div><div class="line">    <span class="built_in">NSURLSessionConfiguration</span> *config = [<span class="built_in">NSURLSessionConfiguration</span> ephemeralSessionConfiguration];</div><div class="line">    <span class="built_in">NSOperationQueue</span> *mainQueue = [<span class="built_in">NSOperationQueue</span> mainQueue];</div><div class="line">    </div><div class="line">    <span class="built_in">NSURLSession</span> *session = [<span class="built_in">NSURLSession</span> sessionWithConfiguration:config delegate:<span class="keyword">self</span> delegateQueue:mainQueue];</div><div class="line">    </div><div class="line">    <span class="built_in">NSURLSessionDataTask</span> *task = [session dataTaskWithRequest:request];</div><div class="line">    </div><div class="line">    [task resume];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><p><code>-(void)stopLoading</code>  停止请求的方法，也是要实现的。</p>
+<h1 id="NSURLProtocolClient"><a href="#NSURLProtocolClient" class="headerlink" title="NSURLProtocolClient"></a>NSURLProtocolClient</h1><p>如果我们使用UIWebView发送一个request，拦截以后当我们使用NSURLSession发出了request，那么这个request的response是无法回到这个UIWebView的，因为可以理解成不是同一个地方发出的request，这个response只能有session来处理，那我们怎么才能让这个response回到刚开始的UIWebView呢？</p>
+<p>NSURLProtocolClient就可以看做是URL Loading System，我们把response告诉client，也就是URL Loading System，让他来继续处理这个response，因为一切都是基于URL Loading System发生的，所以把response交给他，他会自动处理这个response回到webView。  </p>
+<p>每一个NSURLProtocol的子类都有一个client对象来处理请求得到的response。其实下面这些写法都是差不多固定的。</p>
+</li>
+</ul>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">-(<span class="keyword">void</span>)URLSession:(<span class="built_in">NSURLSession</span> *)session task:(<span class="built_in">NSURLSessionTask</span> *)task didCompleteWithError:(<span class="built_in">NSError</span> *)error &#123;</div><div class="line">    <span class="keyword">if</span> (error) &#123;</div><div class="line">        [<span class="keyword">self</span>.client URLProtocol:<span class="keyword">self</span> didFailWithError:error];</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        [<span class="keyword">self</span>.client URLProtocolDidFinishLoading:<span class="keyword">self</span>];</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">-(<span class="keyword">void</span>)URLSession:(<span class="built_in">NSURLSession</span> *)session dataTask:(<span class="built_in">NSURLSessionDataTask</span> *)dataTask didReceiveResponse:(<span class="built_in">NSURLResponse</span> *)response completionHandler:(<span class="keyword">void</span> (^)(<span class="built_in">NSURLSessionResponseDisposition</span>))completionHandler &#123;</div><div class="line">    [<span class="keyword">self</span>.client URLProtocol:<span class="keyword">self</span> didReceiveResponse:response cacheStoragePolicy:<span class="built_in">NSURLCacheStorageNotAllowed</span>];</div><div class="line">    </div><div class="line">    completionHandler(<span class="built_in">NSURLSessionResponseAllow</span>);</div><div class="line">&#125;</div><div class="line">-(<span class="keyword">void</span>)URLSession:(<span class="built_in">NSURLSession</span> *)session dataTask:(<span class="built_in">NSURLSessionDataTask</span> *)dataTask didReceiveData:(<span class="built_in">NSData</span> *)data &#123;</div><div class="line">    [<span class="keyword">self</span>.client URLProtocol:<span class="keyword">self</span> didLoadData:data];</div><div class="line">&#125;</div><div class="line">- (<span class="keyword">void</span>)URLSession:(<span class="built_in">NSURLSession</span> *)session dataTask:(<span class="built_in">NSURLSessionDataTask</span> *)dataTask willCacheResponse:(<span class="built_in">NSCachedURLResponse</span> *)proposedResponse completionHandler:(<span class="keyword">void</span> (^)(<span class="built_in">NSCachedURLResponse</span> *cachedResponse))completionHandler</div><div class="line">&#123;</div><div class="line">    completionHandler(proposedResponse);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
+<li>防止死循环  <code>[NSURLProtocol setProperty:@(YES) forKey:protocolKey inRequest:request];</code></li>
+<li>NSURLProtocol 可以拦截 NSURLConnection、NSURLSession、UIwebview 的请求，但是不能拦截WKwebview 和CFNetwork的请求</li>
+<li>AFNetworking 3.0 以后版本拦截不到请求，session的创建方式不同，默认不起作用，<a href="https://xz410236056.github.io/2016/09/01/NSURLProtocol%20%E6%8B%A6%E6%88%AA%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" target="_blank" rel="external">解决方法</a></li>
+</ul>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://www.codertian.com/2016/10/23/black-magic-NSURLProtocol/" target="_blank" rel="external">田腾飞的博客</a><br><a href="https://xz410236056.github.io/2016/09/01/NSURLProtocol%20%E6%8B%A6%E6%88%AA%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" target="_blank" rel="external">幻想乡</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/网络/" rel="tag"># 网络</a>
+          
+            <a href="/tags/NSURLProtocol/" rel="tag"># NSURLProtocol</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/19/TVOS开发技巧/" rel="next" title="TVOS开发技巧">
+                <i class="fa fa-chevron-left"></i> TVOS开发技巧
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -392,6 +509,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -411,8 +532,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/uploads/avatar.jpeg"
@@ -501,6 +631,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#写在前面的话"><span class="nav-number">1.</span> <span class="nav-text">写在前面的话</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#URL-Loading-System"><span class="nav-number">2.</span> <span class="nav-text">URL Loading System</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NSURLProtocol"><span class="nav-number">3.</span> <span class="nav-text">NSURLProtocol</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#如何拦截网络请求"><span class="nav-number">4.</span> <span class="nav-text">如何拦截网络请求</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#注册自定义的URLProtocol子类"><span class="nav-number">4.1.</span> <span class="nav-text">注册自定义的URLProtocol子类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#子类必须实现的方法"><span class="nav-number">4.2.</span> <span class="nav-text">子类必须实现的方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#NSURLProtocolClient"><span class="nav-number">5.</span> <span class="nav-text">NSURLProtocolClient</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -614,10 +760,10 @@
   
 
   
-    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
 
-  
+
 
   
 
