@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Swift," />
+  <meta name="keywords" content="JavaScript,Objective-C," />
 
 
 
@@ -95,22 +95,22 @@
 
 
 
-<meta name="description" content="Swift中值类型和引用类型本文主要介绍值类型、以及使用Struct作为数据模型的注意事项
-值类型（value type）值类型：每次分配给变量/常量或者作为参数传递到函数时，都会重新创建（复制）一个新的实例。
-Swift 中的所有的内建类型都是值类型，不仅包括了传统意义像 Int，Double这些，甚至连 String，Array 以及 Dictionary 都是值类型的(与OC不同), swi">
+<meta name="description" content="UIWebView与JavaScript交互基本的概念
+JavaScriptCore是封装了JavaScript和Objective-C桥接的Objective-C API，只要用很少的代码，就可以做到JavaScript调用Objective-C，或者Objective-C调用JavaScript。
+JSValue: 代表一个JavaScript实体，一个JSValue可以表示很多JavaScr">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Value and Reference Type">
-<meta property="og:url" content="http://yoursite.com/2017/06/03/Value-and-Reference-Type/index.html">
+<meta property="og:title" content="OC和JavaScript交互">
+<meta property="og:url" content="http://yoursite.com/2017/05/23/OC和JavaScript交互/index.html">
 <meta property="og:site_name" content="威立山">
-<meta property="og:description" content="Swift中值类型和引用类型本文主要介绍值类型、以及使用Struct作为数据模型的注意事项
-值类型（value type）值类型：每次分配给变量/常量或者作为参数传递到函数时，都会重新创建（复制）一个新的实例。
-Swift 中的所有的内建类型都是值类型，不仅包括了传统意义像 Int，Double这些，甚至连 String，Array 以及 Dictionary 都是值类型的(与OC不同), swi">
-<meta property="og:updated_time" content="2017-06-04T06:10:35.000Z">
+<meta property="og:description" content="UIWebView与JavaScript交互基本的概念
+JavaScriptCore是封装了JavaScript和Objective-C桥接的Objective-C API，只要用很少的代码，就可以做到JavaScript调用Objective-C，或者Objective-C调用JavaScript。
+JSValue: 代表一个JavaScript实体，一个JSValue可以表示很多JavaScr">
+<meta property="og:updated_time" content="2017-07-03T16:50:56.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Value and Reference Type">
-<meta name="twitter:description" content="Swift中值类型和引用类型本文主要介绍值类型、以及使用Struct作为数据模型的注意事项
-值类型（value type）值类型：每次分配给变量/常量或者作为参数传递到函数时，都会重新创建（复制）一个新的实例。
-Swift 中的所有的内建类型都是值类型，不仅包括了传统意义像 Int，Double这些，甚至连 String，Array 以及 Dictionary 都是值类型的(与OC不同), swi">
+<meta name="twitter:title" content="OC和JavaScript交互">
+<meta name="twitter:description" content="UIWebView与JavaScript交互基本的概念
+JavaScriptCore是封装了JavaScript和Objective-C桥接的Objective-C API，只要用很少的代码，就可以做到JavaScript调用Objective-C，或者Objective-C调用JavaScript。
+JSValue: 代表一个JavaScript实体，一个JSValue可以表示很多JavaScr">
 
 
 
@@ -138,13 +138,13 @@ Swift 中的所有的内建类型都是值类型，不仅包括了传统意义�
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/06/03/Value-and-Reference-Type/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/05/23/OC和JavaScript交互/"/>
 
 
 
 
 
-  <title>Value and Reference Type | 威立山</title>
+  <title>OC和JavaScript交互 | 威立山</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -308,7 +308,7 @@ Swift 中的所有的内建类型都是值类型，不仅包括了传统意义�
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/Value-and-Reference-Type/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/23/OC和JavaScript交互/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Willishine">
@@ -325,7 +325,7 @@ Swift 中的所有的内建类型都是值类型，不仅包括了传统意义�
 
         
         
-          <h1 class="post-title" itemprop="name headline">Value and Reference Type</h1>
+          <h1 class="post-title" itemprop="name headline">OC和JavaScript交互</h1>
         
 
         <div class="post-meta">
@@ -337,8 +337,8 @@ Swift 中的所有的内建类型都是值类型，不仅包括了传统意义�
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T21:17:03+08:00">
-                2017-06-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-23T23:37:05+08:00">
+                2017-05-23
               </time>
             
 
@@ -355,7 +355,7 @@ Swift 中的所有的内建类型都是值类型，不仅包括了传统意义�
 
           
           
-             <span id="/2017/06/03/Value-and-Reference-Type/" class="leancloud_visitors" data-flag-title="Value and Reference Type">
+             <span id="/2017/05/23/OC和JavaScript交互/" class="leancloud_visitors" data-flag-title="OC和JavaScript交互">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -383,38 +383,56 @@ Swift 中的所有的内建类型都是值类型，不仅包括了传统意义�
       
 
       
-        <h1 id="Swift中值类型和引用类型"><a href="#Swift中值类型和引用类型" class="headerlink" title="Swift中值类型和引用类型"></a>Swift中值类型和引用类型</h1><p><em>本文主要介绍值类型、以及使用Struct作为数据模型的注意事项</em></p>
-<h2 id="值类型（value-type）"><a href="#值类型（value-type）" class="headerlink" title="值类型（value type）"></a>值类型（value type）</h2><p><strong>值类型：</strong>每次分配给变量/常量或者作为参数传递到函数时，都会重新创建（复制）一个新的实例。</p>
-<p>Swift 中的所有的内建类型都是值类型，不仅包括了传统意义像 Int，Double这些，甚至连 String，Array 以及 Dictionary 都是值类型的(与OC不同), swift中所有的Struct 和 enum 都是值类型，值类型每次初始化以后，将它分配或者传递时，实际上是分配或传递了它的一个拷贝。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Point</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> x : <span class="type">Int</span></div><div class="line">    <span class="keyword">var</span> y : <span class="type">Int</span></div><div class="line">    <span class="keyword">init</span>(x:<span class="type">Int</span>, y:<span class="type">Int</span>) &#123;</div><div class="line">        <span class="keyword">self</span>.x = x</div><div class="line">        <span class="keyword">self</span>.y = y</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"> <span class="keyword">var</span> aPoint = <span class="type">Point</span>(x: <span class="number">10</span>, y: <span class="number">10</span>)</div><div class="line"> <span class="keyword">var</span> bPoint = aPoint</div><div class="line"> bPoint.x = <span class="number">5</span></div><div class="line"> <span class="built_in">print</span>(aPoint)</div><div class="line"> <span class="built_in">print</span>(bPoint)</div></pre></td></tr></table></figure>
-<p><strong>打印结果</strong></p>
-<p>Point(x: 10, y: 10)</p>
-<p>Point(x: 5, y: 10)</p>
-<p><strong>总结</strong>：</p>
-<ol>
-<li>赋值给新变量，会产生一个单独的、没有数据共享的新实例.</li>
-<li>值类型在复制时，会将存储在其中的值类型一并进行复制，而对于其中的引用类型的话，则只复制一份引用。</li>
-<li>复制时机，是在值类型中的内容发生改变时！值类型每次复制会增加额外开销，Swift将这种开销控制在最小的范围内，在没有必要复制时，复制是不会发生的。~(≧▽≦)/~</li>
+        <h1 id="UIWebView与JavaScript交互"><a href="#UIWebView与JavaScript交互" class="headerlink" title="UIWebView与JavaScript交互"></a>UIWebView与JavaScript交互</h1><h2 id="基本的概念"><a href="#基本的概念" class="headerlink" title="基本的概念"></a>基本的概念</h2><ul>
+<li><code>JavaScriptCore</code>是封装了JavaScript和Objective-C桥接的Objective-C API，只要用很少的代码，就可以做到JavaScript调用Objective-C，或者Objective-C调用JavaScript。</li>
+<li><code>JSValue</code>: 代表一个JavaScript实体，一个JSValue可以表示很多JavaScript原始类型例如boolean, integers, doubles，甚至包括对象和函数。</li>
+<li><code>JSContext</code>: 代表JavaScript的运行环境，你需要用JSContext来执行JavaScript代码。所有的JSValue都是捆绑在一个JSContext上的.</li>
+<li><code>JSExport</code>: 这是一个协议，可以用这个协议来将原生对象导出给JavaScript，这样原生对象的属性或方法就成为了JavaScript的属性或方法，非常神奇。</li>
+</ul>
+<h2 id="OC调用JS的方法"><a href="#OC调用JS的方法" class="headerlink" title="OC调用JS的方法"></a>OC调用JS的方法</h2><p>采用stringByEvaluatingJavaScriptFromString写入JS代码，调用JS的方法<br>采用系统框架<javascriptcore javascriptcore.h="">的JSContext +evaluateScript调用JS代码</javascriptcore></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 1.UIWebView执行JS代码</span></div><div class="line">[<span class="keyword">self</span>.webView stringByEvaluatingJavaScriptFromString:<span class="string">@"showName('Willi')"</span>];</div><div class="line"><span class="comment">// 2.JavaScriptCore执行JS</span></div><div class="line">JSContext *context = [[JSContext alloc] init];</div><div class="line"><span class="built_in">NSString</span> *jsCode = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"alert(\"我是OC里面的js方法\")"</span>];</div><div class="line">[context evaluateScript:jsCode];</div></pre></td></tr></table></figure>
+<h2 id="JS调用OC的方法"><a href="#JS调用OC的方法" class="headerlink" title="JS调用OC的方法"></a>JS调用OC的方法</h2><ol>
+<li>采用传统的方法，加载WebView的时候截取URL的方式</li>
+<li>利用苹果系统框架<javascriptcore javascriptcore.h="">的JSContext的block方式 或者 JSExport协议方式</javascriptcore></li>
 </ol>
-<p><strong>线程安全：</strong><br>    在Swift中，Array、String、Dictionary都是值类型。它们的使用方式类似C语言中得int，每一个实例都有一份数据。你不需要进行显示的复制操作去防止数据在你不知情的情况下被修改。更重要的是，你可以跨线程进行传参而不需要考虑同步的问题，因为传递值类型很安全。（<a href="https://developer.apple.com/swift/blog/?id=10" target="_blank" rel="external">Swift官方博客</a>）</p>
-<h2 id="引用类型（Reference-Types）"><a href="#引用类型（Reference-Types）" class="headerlink" title="引用类型（Reference Types）"></a>引用类型（Reference Types）</h2><p><strong>引用类型</strong>：引用类型初始化后，无论是分配给变量还是常量，或是通过参数传递给函数，都将是同一个实例对象。<br>NSObject再熟悉不过了，当在分配或传递是都是引用，都指向那个原始对象。不再多说了~</p>
-<h2 id="Struct数据模型"><a href="#Struct数据模型" class="headerlink" title="Struct数据模型"></a>Struct数据模型</h2><p><strong>处理数据结构时有时会用Struct进行处理，使用 Struct 来代替 Class 作为数据模型有很多好处。值类型是非常有优势的：</strong></p>
-<ul>
-<li>安全性 ：因为 Struct 是用值类型传递的，它们没有引用计数。</li>
-<li>内存：由于他们没有引用数，他们不会因为循环引用导致内存泄漏。</li>
-<li>速度：值类型通常来说是以栈的形式分配的，而不是用堆。因此他们比 Class 要快很多，真的很多！在 <a href="https://stackoverflow.com/questions/24232799/why-choose-struct-over-class/24232845" target="_blank" rel="external">StackOverflow</a> 给 Struct 和 Class 进行相同操作的表现做了基准测试，Struct 比 Class 要快九百倍。</li>
-<li>拷贝：在 Objective-C 里拷贝一个对象,你必须选用正确的拷贝类型（深拷贝、浅拷贝），这是非常烦人的，值类型的拷贝则非常轻松！</li>
-<li>线程安全：值类型是自动线程安全的。无论你从哪个线程去访问你的 Struct ，都非常简单。</li>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//注册printAandB方法</span></div><div class="line"> context[<span class="string">@"printAandB"</span>] = ^(<span class="built_in">NSString</span> *A ,<span class="built_in">NSString</span> *B) &#123;</div><div class="line">     <span class="built_in">NSLog</span>(<span class="string">@"%@,%@"</span>,A,B);</div><div class="line"> &#125;;</div><div class="line"> </div><div class="line"><span class="comment">//自定义协议，并且协议遵守&lt;JSExport&gt;协议</span></div><div class="line"><span class="class"><span class="keyword">@protocol</span> <span class="title">WuKongJSExport</span> &lt;<span class="title">JSExport</span>&gt;</span></div><div class="line">JSExportAs(Invoke, - (<span class="keyword">void</span>)invokeKey:(<span class="built_in">NSString</span> *)key value:(<span class="built_in">NSString</span> *)value);</div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<h1 id="WKWebView与JavaScript的交互"><a href="#WKWebView与JavaScript的交互" class="headerlink" title="WKWebView与JavaScript的交互"></a>WKWebView与JavaScript的交互</h1><h2 id="WKWebView"><a href="#WKWebView" class="headerlink" title="WKWebView"></a>WKWebView</h2><p><strong>WKWebView</strong>是苹果在iOS 8中引入的新组件，目的是给出一个新的高性能的WebView解决方案，摆脱过去 UIWebView的老、旧、笨重，特别是内存占用量巨大的问题。</p>
+<h2 id="OC调用JS的方法-1"><a href="#OC调用JS的方法-1" class="headerlink" title="OC调用JS的方法"></a>OC调用JS的方法</h2><ul>
+<li>原生调用JavaScript的代码需要在页面加载完成之后，就是在 - webView:didFinishNavigation:代理方法里面</li>
 </ul>
-<p><strong>Struct的缺点：</strong></p>
-<ul>
-<li>OC无法调用Swift的Struct，当你的项目的代码是 Swift 和 Objective-C 混合开发时，你会发现在 Objective-C 的代码里无法调用 Swift 的 Struct。因为要在 Objective-C 里调用 Swift 代码的话，对象需要继承于 NSObject。</li>
-<li>不能继承，继承是面向对象编程的四大特性之一，没有继承就不能抽象一个统一模型</li>
-<li>Struct 不能被序列化成 NSData 对象。某些时候会把数据存在 NSUserDefaults 里，而Struct 转化成NSData，技术可行但坑多</li>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[webView evaluateJavaScript:<span class="string">@"showAlert('奏是一个弹框')"</span> completionHandler:^(<span class="keyword">id</span> item, <span class="built_in">NSError</span> * _Nullable error) &#123;</div><div class="line">        <span class="comment">// Block中处理是否通过了或者执行JS错误的代码</span></div><div class="line"> &#125;];</div></pre></td></tr></table></figure>
+<h2 id="JS调用OC的方法-1"><a href="#JS调用OC的方法-1" class="headerlink" title="JS调用OC的方法"></a>JS调用OC的方法</h2><ul>
+<li><p>JavaScript的配置<br>JavaScript调用Native的方法就需要前端和Native的小伙伴们配合了，需要前端的小伙伴在JS的方法中调用：<br><code>window.webkit.messageHandlers.NativeMethod.postMessage(&quot;就是一个消息啊&quot;);</code></p>
+</li>
+<li><p>Native App的代码配置</p>
+</li>
 </ul>
-<p>参考：</p>
-<p><a href="http://swifter.tips/value-reference/" target="_blank" rel="external">王巍Swift Tips</a></p>
-<p><a href="http://swift.gg/2016/07/22/swift-caveats-for-structs-as-data-models/" target="_blank" rel="external">SwiftGG</a></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"> <span class="comment">// 创建配置</span></div><div class="line"> <span class="built_in">WKWebViewConfiguration</span> *config = [[<span class="built_in">WKWebViewConfiguration</span> alloc] init];</div><div class="line"> <span class="comment">// 创建UserContentController（提供JavaScript向webView发送消息的方法）</span></div><div class="line"> <span class="built_in">WKUserContentController</span>* userContent = [[<span class="built_in">WKUserContentController</span> alloc] init];</div><div class="line"> <span class="comment">// 添加消息处理，注意：self指代的对象需要遵守WKScriptMessageHandler协议，结束时需要移除</span></div><div class="line">[userContent addScriptMessageHandler:<span class="keyword">self</span> name:<span class="string">@"NativeMethod"</span>];</div><div class="line"> <span class="comment">// 将UserConttentController设置到配置文件</span></div><div class="line"> config.userContentController = userContent;</div><div class="line"> <span class="comment">// 高端的自定义配置创建WKWebView</span></div><div class="line"> <span class="built_in">WKWebView</span> *webView = [[<span class="built_in">WKWebView</span> alloc] initWithFrame:[<span class="built_in">UIScreen</span> mainScreen].bounds configuration:config];</div><div class="line"> <span class="comment">// 设置访问的URL</span></div><div class="line"> <span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:<span class="string">@"http://www.jianshu.com"</span>];</div><div class="line"> <span class="comment">// 根据URL创建请求</span></div><div class="line"> <span class="built_in">NSURLRequest</span> *request = [<span class="built_in">NSURLRequest</span> requestWithURL:url];</div><div class="line"> <span class="comment">// WKWebView加载请求</span></div><div class="line"> [webView loadRequest:request];</div><div class="line"> <span class="comment">// 将WKWebView添加到视图</span></div><div class="line"> [<span class="keyword">self</span>.view addSubview:webView];</div></pre></td></tr></table></figure>
+<p>可以看到，添加消息处理的handler的name，就是JavaScript中调用时候的<code>NativeMethod</code>，这两个要保持一致。请把URL换成你自己的。<br>配置当前ViewController为MessageHandler，需要服从<code>WKScriptMessageHandler</code>协议，如果出现警告⚠️，请检查是否服从了这个协议。<br><strong>注意！注意！注意：</strong>上面将当前ViewController设置为MessageHandler之后需要在当前ViewController销毁前将其移除，否则会造成内存泄漏。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[webView.configuration.userContentController removeScriptMessageHandlerForName:<span class="string">@"NativeMethod"</span>];</div></pre></td></tr></table></figure>
+<p>现在万事俱备，只欠东风了。可以看到WKScriptMessageHandler的协议里面只有一个方法，就是：<code>- userContentController:didReceiveScriptMessage:</code>  </p>
+<p>相信聪明的你已经猜到了。是的，就是在这个代理方法里面操作：如果JavaScript执行已经写好的：window.webkit.messageHandlers.NativeMethod.postMessage(“就是一个消息啊”);这行代码，这个代理方法就会走，并且会有个WKScriptMessage的对象，这个WKScriptMessage对象有个name属性，拿到之后你会发现，就是我们注册的NativeMethod这个字符串，这时候你就可以手动调用Native的方法了。如果有多个方法需要调用的话怎么办，看到JavaScript中postMessage()方法有一个参数了没有，可以根据这里的参数来区分调用原生App的哪个方法。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)userContentController:(<span class="built_in">WKUserContentController</span> *)userContentController didReceiveScriptMessage:(<span class="built_in">WKScriptMessage</span> *)message &#123;</div><div class="line">        <span class="comment">// 判断是否是调用原生的</span></div><div class="line">        <span class="keyword">if</span> ([<span class="string">@"NativeMethod"</span> isEqualToString:message.name]) &#123;</div><div class="line">            <span class="comment">// 判断message的内容，然后做相应的操作</span></div><div class="line">            <span class="keyword">if</span> ([<span class="string">@"close"</span> isEqualToString:message.body]) &#123;</div><div class="line"></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<h1 id="网页支持滑动返回"><a href="#网页支持滑动返回" class="headerlink" title="网页支持滑动返回"></a>网页支持滑动返回</h1><p>  WKWebView比UIWebView有很多优势，在WKWebView中通过设置一个属性 <code>allowsBackForwardNavigationGestures</code> 就可以实现滑动返回，而UIWebView需要写很多代码来达到滑动返回效果。</p>
+<p>项目最低支持iOS7，所以只能使用UIKit中的UIWebView，而新的WKWebView是支持iOS8+</p>
+<ul>
+<li>WKWebView的内存开销要比UIWebView小很多</li>
+<li>拥有高达60FPS滚动刷新率及内置手势</li>
+<li>支持了更多的HTML5特性</li>
+<li>html页面和WKWebView交互更方便</li>
+<li>Safari相同的<code>JavaScript</code>引擎</li>
+<li>提供常用的属性，如加载网页进度的属性estimatedProgress</li>
+</ul>
+<p><strong>实现思路：</strong>在UIWebView的Delegate的shouldStart代理方法中，把当前页面截一张图，把这张截图和对应的Url保存到一个数组中，在WebView上加一个UIPanGestureRecognizer拖拽手势，在手势代理方法中监听状态的变化，当手指滑动时，会把当前的截图和上一页截图，根据手势的移动的位置，做随手指移动的动画。然后重新请求上一个网页<br>测试过程中发现，有时滑动好使有时不好使，最后了解到这个<code>Pan</code>手势和UIScrollview的<code>Pan</code>手势会冲突</p>
+<ol>
+<li><p><code>[webpageView.scrollView.panGestureRecognizer requireGestureRecognizerToFail:_swipePanGesture];</code> 设置先识别滑动返回,在识别滚动的手势，偶尔会造成某些网站网页，不能滚动。</p>
+</li>
+<li><p>设置手势代理方法 <code>- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer</code> 返回YES,允许手势能同时识别。完美解决手势冲突</p>
+</li>
+</ol>
+<hr>
+<p>欢迎指正😝</p>
+<h1 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h1><p><a href="http://www.jianshu.com/p/403853b63537" target="_blank" rel="external">WKWebView使用</a><br><a href="http://nshipster.cn/wkwebkit/" target="_blank" rel="external">WKWeb​View(AFN作者)</a><br><a href="https://lvwenhan.com/ios/460.html" target="_blank" rel="external">自己动手打造基于 WKWebView 的混合开发框架</a>收藏一下</p>
 
       
     </div>
@@ -444,7 +462,9 @@ Swift 中的所有的内建类型都是值类型，不仅包括了传统意义�
       
         <div class="post-tags">
           
-            <a href="/tags/Swift/" rel="tag"># Swift</a>
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+            <a href="/tags/Objective-C/" rel="tag"># Objective-C</a>
           
         </div>
       
@@ -457,8 +477,8 @@ Swift 中的所有的内建类型都是值类型，不仅包括了传统意义�
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/03/My-Heart-Will-Go-On/" rel="next" title="My Heart Will Go On">
-                <i class="fa fa-chevron-left"></i> My Heart Will Go On
+              <a href="/2017/01/02/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
               </a>
             
           </div>
@@ -467,8 +487,8 @@ Swift 中的所有的内建类型都是值类型，不仅包括了传统意义�
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/06/13/iOS应用内购买IAP/" rel="prev" title="iOS应用内购买IAP">
-                iOS应用内购买IAP <i class="fa fa-chevron-right"></i>
+              <a href="/2017/06/03/My-Heart-Will-Go-On/" rel="prev" title="My Heart Will Go On">
+                My Heart Will Go On <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -625,7 +645,7 @@ Swift 中的所有的内建类型都是值类型，不仅包括了传统意义�
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Swift中值类型和引用类型"><span class="nav-number">1.</span> <span class="nav-text">Swift中值类型和引用类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#值类型（value-type）"><span class="nav-number">1.1.</span> <span class="nav-text">值类型（value type）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用类型（Reference-Types）"><span class="nav-number">1.2.</span> <span class="nav-text">引用类型（Reference Types）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Struct数据模型"><span class="nav-number">1.3.</span> <span class="nav-text">Struct数据模型</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#UIWebView与JavaScript交互"><span class="nav-number">1.</span> <span class="nav-text">UIWebView与JavaScript交互</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本的概念"><span class="nav-number">1.1.</span> <span class="nav-text">基本的概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OC调用JS的方法"><span class="nav-number">1.2.</span> <span class="nav-text">OC调用JS的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JS调用OC的方法"><span class="nav-number">1.3.</span> <span class="nav-text">JS调用OC的方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WKWebView与JavaScript的交互"><span class="nav-number">2.</span> <span class="nav-text">WKWebView与JavaScript的交互</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#WKWebView"><span class="nav-number">2.1.</span> <span class="nav-text">WKWebView</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OC调用JS的方法-1"><span class="nav-number">2.2.</span> <span class="nav-text">OC调用JS的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JS调用OC的方法-1"><span class="nav-number">2.3.</span> <span class="nav-text">JS调用OC的方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网页支持滑动返回"><span class="nav-number">3.</span> <span class="nav-text">网页支持滑动返回</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#资料"><span class="nav-number">4.</span> <span class="nav-text">资料</span></a></li></ol></div>
             
 
           </div>
