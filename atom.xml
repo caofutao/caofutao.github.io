@@ -282,14 +282,16 @@
     <link href="http://yoursite.com/2017/06/03/Willishine%E7%9A%84%E4%B8%96%E7%95%8C/"/>
     <id>http://yoursite.com/2017/06/03/Willishine的世界/</id>
     <published>2017-06-03T13:15:20.000Z</published>
-    <updated>2017-07-04T16:28:09.000Z</updated>
+    <updated>2017-07-05T00:50:07.000Z</updated>
     
     <content type="html"><![CDATA[<ul>
-<li>如果想要成功，那就要努力；光努力还不够，还要坚持，如果坚持不了，那就不要抱怨…</li>
-<li>自己有多想成功？当你想成功的欲望强烈的像想要呼吸一样，成功才更有可能…</li>
+<li><p>如果想要成功，那就要努力；光努力还不够，还要坚持，如果坚持不了，那就不要抱怨…  </p>
+</li>
+<li><p>自己有多想成功？当你想成功的欲望强烈的像想要呼吸一样，成功才更有可能…</p>
+</li>
 <li><p>“人生没有彩排，每一天都是现场直播”。偶尔会想，如果人生真如一场电子游戏，玩坏了可以选择重来，生活会变成什么样子？正因为时光流逝一去不复返，每一天都不可追回，所以更要珍惜每一寸光阴，孝敬父母、疼爱孩子、体贴爱人、善待朋友！</p>
 </li>
-<li><p>我想要纯粹的生活<br>想要奋斗的喜悦<br>想要健康的体魄<br>想要一个有趣的人<br>二十六的我，仍然渴望出发…</p>
+<li><p>我想要纯粹的生活<br>想要奋斗的喜悦<br>想要健康的体魄<br>想要一个有趣的灵魂<br>二十六的我，仍然渴望出发…</p>
 </li>
 </ul>
 ]]></content>
@@ -297,9 +299,11 @@
     <summary type="html">
     
       &lt;ul&gt;
-&lt;li&gt;如果想要成功，那就要努力；光努力还不够，还要坚持，如果坚持不了，那就不要抱怨…&lt;/li&gt;
-&lt;li&gt;自己有多想成功？当你想成功的欲望强烈的像想要呼吸一样，成功才更有可能…&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;“人生没有彩排，每一天都是现场直播”。偶尔会想，如果人生真如一场电子
+&lt;li&gt;&lt;p&gt;如果想要成功，那就要努力；光努力还不够，还要坚持，如果坚持不了，那就不要抱怨…  &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;自己有多想成功？当你想成功的欲望强烈的像想要呼吸一样，成功才更有可能…&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;“人生没有彩排，每一天都是现场直
     
     </summary>
     
@@ -381,6 +385,60 @@
       <category term="JavaScript" scheme="http://yoursite.com/tags/JavaScript/"/>
     
       <category term="Objective-C" scheme="http://yoursite.com/tags/Objective-C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Swift闭包</title>
+    <link href="http://yoursite.com/2017/03/05/Swift%E9%97%AD%E5%8C%85/"/>
+    <id>http://yoursite.com/2017/03/05/Swift闭包/</id>
+    <published>2017-03-05T00:06:13.000Z</published>
+    <updated>2017-07-05T00:45:43.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="闭包概念"><a href="#闭包概念" class="headerlink" title="闭包概念"></a>闭包概念</h1><p><strong>闭包</strong>是可以在你的代码中被传递和引用的功能性独立模块。Swift 中的闭包和 C 以及 Objective-C 中的 blocks 很像，还有其他语言中的匿名函数也类似。<br>在Swift中，提供三类闭包：</p>
+<ul>
+<li>全局函数是一个有名字但不会捕获任何值的闭包。</li>
+<li>嵌套（内嵌）函数是一个有名字并可以捕获到其封闭函数域内的值的闭包。</li>
+<li>闭包表达式是一个利用轻量级语法所写的，可以捕获其上下文中变量或常量值的匿名闭包。 </li>
+</ul>
+<h1 id="闭包表达式"><a href="#闭包表达式" class="headerlink" title="闭包表达式"></a>闭包表达式</h1><p>闭包表达式语法可以使用常量、变量和inout类型作为参数，不提供默认值。 也可以在参数列表的最后使用可变参数。 元组也可以作为参数和返回值。</p>
+<p>闭包表达式语法的一般形式：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123; (parameters) -&gt; (<span class="keyword">return</span> type) <span class="keyword">in</span></div><div class="line">    statements</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>关键字 in 来区分闭包的头和闭包函数体。</li>
+</ul>
+<p>Swift 的标准库提供了一个叫做 sorted(by:) 的方法，会根据你提供的排序闭包将已知类型的数组的值进行排序。使用sorted方法对闭包简化<br>例子：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">let names = ["Chris","Ewa","Barry","Daniella”]`</div><div class="line">// 普通函数</div><div class="line">func backward(_ s1: String, _ s2: String) -&gt; Bool &#123;</div><div class="line">    return s1 &gt; s2</div><div class="line">&#125;</div><div class="line">var reversedNames = names.sorted(by: backward)</div><div class="line"></div><div class="line">// 使用闭包表达式</div><div class="line">reversedNames = names.sorted(by: &#123; (s1: String, s2: String) -&gt; Bool in</div><div class="line">    return s1 &gt; s2</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>类型推断（因排序闭包为实际参数来传递给函数，故 Swift 能推断它的形式参数类型和返回类型。）</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">reversedNames = names.sorted(by: &#123; s1, s2 <span class="keyword">in</span> <span class="keyword">return</span> s1 &gt; s2 &#125; )</div></pre></td></tr></table></figure>
+<p>从单表达式闭包隐式返回，return 关键字能够被省略<br><code>reversedNames = names.sorted(by: { s1, s2 in s1 &gt; s2 } )</code><br>简写的实际参数名<br><code>reversedNames = names.sorted(by: { $0 &gt; $1 } )</code><br>还有一种更加简化的形式，直接使用操作符&gt;,可以写出这样的前提是闭包定义刚好和操作符的定义吻合。<br><code>reversedNames = names.sorted(by: &gt;)</code></p>
+<h1 id="逃逸和非逃逸闭包"><a href="#逃逸和非逃逸闭包" class="headerlink" title="逃逸和非逃逸闭包"></a>逃逸和非逃逸闭包</h1><p>Swift 的闭包分为 逃逸 与 非逃逸 两种。一个接受逃逸闭包作为参数的函数，逃逸闭包（可能）会在函数返回之后才被调用————也就是说，闭包逃离了函数的作用域。</p>
+<p>逃逸闭包通常与异步控制流相关联，如下例所示：  </p>
+<ul>
+<li>一个函数开启了一个后台任务后立即返回，然后通过一个完成回调（completion handler）报告后台任务的结果。</li>
+<li>一个视图类把『按钮点击事件执行的操作』封装成一个闭包，并存储为自身的属性。每次用户点击按钮时，都会调用该闭包。闭包会逃离属性的设置器（setter）。</li>
+<li>你使用 <code>DispatchQueue.async</code> 在派发队列（dispatch queue）上安排了一个异步执行的任务。这个闭包任务的生命周期会比 async 的作用域活得更长久。<br>与之对应的 <code>DispatchQueue.sync</code>，它会一直等到任务闭包执行完毕后才返回——闭包永远不会逃逸。map 以及标准库中其他的序列和数组的算法也是非逃逸的。</li>
+</ul>
+<h2 id="为什么区分闭包的逃逸性和非逃逸性如此重要"><a href="#为什么区分闭包的逃逸性和非逃逸性如此重要" class="headerlink" title="为什么区分闭包的逃逸性和非逃逸性如此重要"></a>为什么区分闭包的逃逸性和非逃逸性如此重要</h2><p>简单来说，是为了管理内存。一个闭包会强引用它捕获的所有对象————如果你在闭包中访问了当前对象中的任意属性或实例方法，闭包会持有当前对象，因为这些方法和属性都隐性地携带了一个 self 参数。<br>这种方式很容易导致循环引用，这解释了为什么编译器会要求你在闭包中显式地写出对 self 的引用。这迫使你考虑潜在的循环引用，并使用捕获列表手动处理。<br>然而，使用非逃逸的闭包不会产生循环引用————编译器可以保证在函数返回时闭包会释放它捕获的所有对象。因此，编译器只要求在逃逸闭包中明确对 self 的强引用。显然，使用非逃逸闭包是一个更加愉悦的方案。</p>
+<ul>
+<li>从 Swift 3.0 开始，非逃逸闭包变成了闭包参数的默认形式。如果你想允许一个闭包参数逃逸，需要给这个类型增加一个 @escaping 的标注。</li>
+</ul>
+<h2 id="解决闭包循环引用"><a href="#解决闭包循环引用" class="headerlink" title="解决闭包循环引用"></a>解决闭包循环引用</h2><p>解决闭包的循环强引用<br>Swift 提供了一种优雅的方法来解决这个问题，称之为闭包捕获列表（ closuer capture list ）<br>捕获列表中的每一项都由 weak 或 unowned 关键字与类实例的引用（如 self ）成对组成</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">lazy</span> <span class="keyword">var</span> someClosure: (<span class="type">Int</span>, <span class="type">String</span>) -&gt; <span class="type">String</span> = &#123;</div><div class="line">    [<span class="keyword">unowned</span> <span class="keyword">self</span>, <span class="keyword">weak</span> delegate = <span class="keyword">self</span>.delegate!] (index: <span class="type">Int</span>, stringToProcess: <span class="type">String</span>) -&gt; <span class="type">String</span> <span class="keyword">in</span></div><div class="line">    <span class="comment">// closure body goes here</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://swift.gg/2016/11/15/optional-non-escaping-closures/" target="_blank" rel="external">闭包逃逸和非逃逸</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;闭包概念&quot;&gt;&lt;a href=&quot;#闭包概念&quot; class=&quot;headerlink&quot; title=&quot;闭包概念&quot;&gt;&lt;/a&gt;闭包概念&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;闭包&lt;/strong&gt;是可以在你的代码中被传递和引用的功能性独立模块。Swift 中的闭包和 C 以及 Ob
+    
+    </summary>
+    
+    
+      <category term="Swift" scheme="http://yoursite.com/tags/Swift/"/>
+    
+      <category term="闭包" scheme="http://yoursite.com/tags/%E9%97%AD%E5%8C%85/"/>
     
   </entry>
   
