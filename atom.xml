@@ -389,6 +389,66 @@
   </entry>
   
   <entry>
+    <title>Wireshark抓包</title>
+    <link href="http://yoursite.com/2017/04/23/Wireshark%E6%8A%93%E5%8C%85/"/>
+    <id>http://yoursite.com/2017/04/23/Wireshark抓包/</id>
+    <published>2017-04-23T00:57:31.000Z</published>
+    <updated>2017-07-05T16:40:10.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>网络抓包是个基础技能，对于网络协议的掌握有一定的要求。iOS上实现网络抓包可以用Charles（针对http和https），tcpdump（快速分析网络包），和Wireshare。之前写过一篇介绍tcpdump抓包的入门文章，和tcpdump相比，Wireshark提供丰富的GUI交互，而且能分析所有的网络协议，关键还是免费的，掌握好Wireshark就能应付绝大部分需要分析网络协议的场景了。</p>
+</blockquote>
+<p>首先安装软件 <a href="https://www.wireshark.org/download.html" target="_blank" rel="external">官网下载</a>，目前最新版本v2.2.7</p>
+<p>打开主界面<br><img src="https://ws2.sinaimg.cn/large/006tNbRwly1fh96jrkh8tj31kw180tix.jpg" alt="Wireshark主界面"><br>Wireshark在第一个界面就把当前系统所包含的网卡列出来了，直接点击任何一项就可以开始监听通过该网卡的所有网络流量。   </p>
+<h1 id="RVI接口创建和管理"><a href="#RVI接口创建和管理" class="headerlink" title="RVI接口创建和管理"></a>RVI接口创建和管理</h1><p>当我们把iPhone通过usb连接macbook时，Wireshark并不能直接监听通过iPhone的网络流量，需要通过一个系统程序在我们的Mac系统上，建立一个映射到iPhone的虚拟网卡  </p>
+<ol>
+<li>通过数据线连接好iOS设备，拿到设备的UDID（Xcode或iTunes都行）</li>
+<li>terminal输入命令，格式是<code>rvictl -s 设备UDID</code> </li>
+</ol>
+<p>执行命令之后Wireshark能立即识别新增加的rvi0网卡，也就是上图中高亮的部分，双击rvi0这一项，Wireshare即进入如下界面开始监听iPhone设备上的所有流量。</p>
+<ul>
+<li>Android手机，可以下载个<code>PacketCaptrue</code>软件，用于抓包</li>
+</ul>
+<p>如果出现下图错误，请用在终端用 <code>sudo wireshark</code> 命令启动<br><img src="https://ws1.sinaimg.cn/large/006tNbRwly1fh9cvfmggej30es08lmy7.jpg" alt="error"></p>
+<h1 id="网络包结构"><a href="#网络包结构" class="headerlink" title="网络包结构"></a>网络包结构</h1><p>经典的TCP/IP五层结构:</p>
+<ul>
+<li>应用层</li>
+<li>传输层  </li>
+<li>网络层</li>
+<li>数据链路层</li>
+<li>物理层</li>
+</ul>
+<p>应用层是最内层的payload，除了应用层这一层之外，其他层都是用自己这一层的协议header+所包含那一层的payload。可以用如下公式表示：<br>TCP Layer = TCP Header + Application Payload<br>IP Layer = IP Header + TCP Payload<br>…</p>
+<h1 id="使用Filter过滤包"><a href="#使用Filter过滤包" class="headerlink" title="使用Filter过滤包"></a>使用Filter过滤包</h1><p>使用Wireshark和使用Charles最大的区别在于，Charles只捕获HTTP流量，而Wireshark捕捉的是经过目标网卡所有的流量，流量包可以在几秒内膨胀到难以阅读的数量，所以此时我们需要使用Filter来做包的过滤，Filter规则定的越细，剔除掉的干扰信息就越多，分析起来就越快。</p>
+<p>Wireshark的Filter分为两种，一种为Capture Filter，另一种是Display Filter。 </p>
+<ul>
+<li><p>Capture Filter出现在初始界面，在网卡列表的上方有个输入框，允许我们输入capture filter，一旦输入了特定的capture规则，Wireshark就只捕获符合该规则的流量包了。</p>
+</li>
+<li><p>Display Filter出现在流量监控界面，在工具栏的下方有个输入框，允许我们输入display filter，display filter只是从界面上过滤掉不符合规则的包，Wireshark实际上还是监听了这些包，一旦去掉display filter，所有的包又会出现在同一界面。<br><img src="https://ws4.sinaimg.cn/large/006tNbRwly1fh9grjnf2wj30um0bcdio.jpg" alt="Display Filter"></p>
+</li>
+</ul>
+<p>语法规则可以查看<a href="https://www.wireshark.org/docs/wsug_html_chunked/ChWorkBuildDisplayFilterSection.html" target="_blank" rel="external">Wireshark官方文档</a></p>
+<h1 id="流量跟踪"><a href="#流量跟踪" class="headerlink" title="流量跟踪"></a>流量跟踪</h1><p>Wireshark默认情况下将不同网络连接的流量都混在一起展示，即使给不同协议的包上色之后，要单独查看某个特定连接的流量依然不怎么方便，我们可以通过Wireshark提供的两种方式来实现这个目标。</p>
+<h2 id="Follow-Stream"><a href="#Follow-Stream" class="headerlink" title="Follow Stream"></a>Follow Stream</h2><p>当我们选中某个包之后，右键弹出的菜单里，有个选项允许我们将当前包所属于的完整流量单独列出来，如<br><img src="https://ws1.sinaimg.cn/large/006tNbRwly1fh9ha85spnj31bc0u24da.jpg" alt="TCP追踪流"></p>
+<h2 id="Flow-Graph"><a href="#Flow-Graph" class="headerlink" title="Flow Graph"></a>Flow Graph</h2><p>Flow Graph可以通过菜单Statistics-&gt;Flow Graph来生成，这样我们可以得到另一种形式的流量呈现</p>
+<p>和Follow Stream不同的是我们获取到的是完整的流量，iPhone手机IP地址发出的流向多个服务器的网络流量，包括DNS解析和SSL安全握手等。当然我们也可以在上图中下方的操作区域做进一步的过滤，可以使用Display Filter做进一步的流量定位。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;网络抓包是个基础技能，对于网络协议的掌握有一定的要求。iOS上实现网络抓包可以用Charles（针对http和https），tcpdump（快速分析网络包），和Wireshare。之前写过一篇介绍tcpdump抓包的入门文章，和tcpdump相比，
+    
+    </summary>
+    
+    
+      <category term="Wireshark" scheme="http://yoursite.com/tags/Wireshark/"/>
+    
+      <category term="抓包" scheme="http://yoursite.com/tags/%E6%8A%93%E5%8C%85/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Swift闭包</title>
     <link href="http://yoursite.com/2017/03/05/Swift%E9%97%AD%E5%8C%85/"/>
     <id>http://yoursite.com/2017/03/05/Swift闭包/</id>
