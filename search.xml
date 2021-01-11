@@ -72,65 +72,6 @@
       </tags>
   </entry>
   <entry>
-    <title>OC和JavaScript交互</title>
-    <url>/2017/05/23/OC%E5%92%8CJavaScript%E4%BA%A4%E4%BA%92/</url>
-    <content><![CDATA[<h1 id="UIWebView与JavaScript交互"><a href="#UIWebView与JavaScript交互" class="headerlink" title="UIWebView与JavaScript交互"></a>UIWebView与JavaScript交互</h1><h2 id="基本的概念"><a href="#基本的概念" class="headerlink" title="基本的概念"></a>基本的概念</h2><ul>
-<li><code>JavaScriptCore</code>是封装了JavaScript和Objective-C桥接的Objective-C API，只要用很少的代码，就可以做到JavaScript调用Objective-C，或者Objective-C调用JavaScript。</li>
-<li><code>JSValue</code>: 代表一个JavaScript实体，一个JSValue可以表示很多JavaScript原始类型例如boolean, integers, doubles，甚至包括对象和函数。</li>
-<li><code>JSContext</code>: 代表JavaScript的运行环境，你需要用JSContext来执行JavaScript代码。所有的JSValue都是捆绑在一个JSContext上的.</li>
-<li><code>JSExport</code>: 这是一个协议，可以用这个协议来将原生对象导出给JavaScript，这样原生对象的属性或方法就成为了JavaScript的属性或方法，非常神奇。</li>
-</ul>
-<h2 id="OC调用JS的方法"><a href="#OC调用JS的方法" class="headerlink" title="OC调用JS的方法"></a>OC调用JS的方法</h2><p>采用stringByEvaluatingJavaScriptFromString写入JS代码，调用JS的方法<br>采用系统框架&lt;JavaScriptCore/JavaScriptCore.h&gt;的JSContext +evaluateScript调用JS代码</p>
-<figure class="highlight objectivec"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 1.UIWebView执行JS代码</span></span><br><span class="line">[<span class="keyword">self</span>.webView stringByEvaluatingJavaScriptFromString:<span class="string">@&quot;showName(&#x27;Willi&#x27;)&quot;</span>];</span><br><span class="line"><span class="comment">// 2.JavaScriptCore执行JS</span></span><br><span class="line">JSContext *context = [[JSContext alloc] init];</span><br><span class="line"><span class="built_in">NSString</span> *jsCode = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;alert(\&quot;我是OC里面的js方法\&quot;)&quot;</span>];</span><br><span class="line">[context evaluateScript:jsCode];</span><br></pre></td></tr></table></figure>
-<h2 id="JS调用OC的方法"><a href="#JS调用OC的方法" class="headerlink" title="JS调用OC的方法"></a>JS调用OC的方法</h2><ol>
-<li>采用传统的方法，加载WebView的时候截取URL的方式</li>
-<li>利用苹果系统框架&lt;JavaScriptCore/JavaScriptCore.h&gt;的JSContext的block方式 或者 JSExport协议方式</li>
-</ol>
-<figure class="highlight objectivec"><table><tr><td class="code"><pre><span class="line"><span class="comment">//注册printAandB方法</span></span><br><span class="line"> context[<span class="string">@&quot;printAandB&quot;</span>] = ^(<span class="built_in">NSString</span> *A ,<span class="built_in">NSString</span> *B) &#123;</span><br><span class="line">     <span class="built_in">NSLog</span>(<span class="string">@&quot;%@,%@&quot;</span>,A,B);</span><br><span class="line"> &#125;;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//自定义协议，并且协议遵守&lt;JSExport&gt;协议</span></span><br><span class="line"><span class="class"><span class="keyword">@protocol</span> <span class="title">WuKongJSExport</span> &lt;<span class="title">JSExport</span>&gt;</span></span><br><span class="line">JSExportAs(Invoke, - (<span class="keyword">void</span>)invokeKey:(<span class="built_in">NSString</span> *)key value:(<span class="built_in">NSString</span> *)value);</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
-<h1 id="WKWebView与JavaScript的交互"><a href="#WKWebView与JavaScript的交互" class="headerlink" title="WKWebView与JavaScript的交互"></a>WKWebView与JavaScript的交互</h1><h2 id="WKWebView"><a href="#WKWebView" class="headerlink" title="WKWebView"></a>WKWebView</h2><p><strong>WKWebView</strong>是苹果在iOS 8中引入的新组件，目的是给出一个新的高性能的WebView解决方案，摆脱过去 UIWebView的老、旧、笨重，特别是内存占用量巨大的问题。</p>
-<h2 id="OC调用JS的方法-1"><a href="#OC调用JS的方法-1" class="headerlink" title="OC调用JS的方法"></a>OC调用JS的方法</h2><ul>
-<li>原生调用JavaScript的代码需要在页面加载完成之后，就是在 - webView:didFinishNavigation:代理方法里面</li>
-</ul>
-<figure class="highlight objectivec"><table><tr><td class="code"><pre><span class="line">[webView evaluateJavaScript:<span class="string">@&quot;showAlert(&#x27;奏是一个弹框&#x27;)&quot;</span> completionHandler:^(<span class="keyword">id</span> item, <span class="built_in">NSError</span> * _Nullable error) &#123;</span><br><span class="line">        <span class="comment">// Block中处理是否通过了或者执行JS错误的代码</span></span><br><span class="line"> &#125;];</span><br></pre></td></tr></table></figure>
-<h2 id="JS调用OC的方法-1"><a href="#JS调用OC的方法-1" class="headerlink" title="JS调用OC的方法"></a>JS调用OC的方法</h2><ul>
-<li><p>JavaScript的配置<br>JavaScript调用Native的方法就需要前端和Native的小伙伴们配合了，需要前端的小伙伴在JS的方法中调用：<br><code>window.webkit.messageHandlers.NativeMethod.postMessage(&quot;就是一个消息啊&quot;);</code></p>
-</li>
-<li><p>Native App的代码配置</p>
-</li>
-</ul>
-<figure class="highlight objectivec"><table><tr><td class="code"><pre><span class="line"> <span class="comment">// 创建配置</span></span><br><span class="line"> <span class="built_in">WKWebViewConfiguration</span> *config = [[<span class="built_in">WKWebViewConfiguration</span> alloc] init];</span><br><span class="line"> <span class="comment">// 创建UserContentController（提供JavaScript向webView发送消息的方法）</span></span><br><span class="line"> <span class="built_in">WKUserContentController</span>* userContent = [[<span class="built_in">WKUserContentController</span> alloc] init];</span><br><span class="line"> <span class="comment">// 添加消息处理，注意：self指代的对象需要遵守WKScriptMessageHandler协议，结束时需要移除</span></span><br><span class="line">[userContent addScriptMessageHandler:<span class="keyword">self</span> name:<span class="string">@&quot;NativeMethod&quot;</span>];</span><br><span class="line"> <span class="comment">// 将UserConttentController设置到配置文件</span></span><br><span class="line"> config.userContentController = userContent;</span><br><span class="line"> <span class="comment">// 高端的自定义配置创建WKWebView</span></span><br><span class="line"> <span class="built_in">WKWebView</span> *webView = [[<span class="built_in">WKWebView</span> alloc] initWithFrame:[<span class="built_in">UIScreen</span> mainScreen].bounds configuration:config];</span><br><span class="line"> <span class="comment">// 设置访问的URL</span></span><br><span class="line"> <span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:<span class="string">@&quot;http://www.jianshu.com&quot;</span>];</span><br><span class="line"> <span class="comment">// 根据URL创建请求</span></span><br><span class="line"> <span class="built_in">NSURLRequest</span> *request = [<span class="built_in">NSURLRequest</span> requestWithURL:url];</span><br><span class="line"> <span class="comment">// WKWebView加载请求</span></span><br><span class="line"> [webView loadRequest:request];</span><br><span class="line"> <span class="comment">// 将WKWebView添加到视图</span></span><br><span class="line"> [<span class="keyword">self</span>.view addSubview:webView];</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
-<p>可以看到，添加消息处理的handler的name，就是JavaScript中调用时候的<code>NativeMethod</code>，这两个要保持一致。请把URL换成你自己的。<br>配置当前ViewController为MessageHandler，需要服从<code>WKScriptMessageHandler</code>协议，如果出现警告⚠️，请检查是否服从了这个协议。<br><strong>注意！注意！注意：</strong>上面将当前ViewController设置为MessageHandler之后需要在当前ViewController销毁前将其移除，否则会造成内存泄漏。</p>
-<figure class="highlight objectivec"><table><tr><td class="code"><pre><span class="line">[webView.configuration.userContentController removeScriptMessageHandlerForName:<span class="string">@&quot;NativeMethod&quot;</span>];</span><br></pre></td></tr></table></figure>
-<p>现在万事俱备，只欠东风了。可以看到WKScriptMessageHandler的协议里面只有一个方法，就是：<code>- userContentController:didReceiveScriptMessage:</code>  </p>
-<p>相信聪明的你已经猜到了。是的，就是在这个代理方法里面操作：如果JavaScript执行已经写好的：window.webkit.messageHandlers.NativeMethod.postMessage(“就是一个消息啊”);这行代码，这个代理方法就会走，并且会有个WKScriptMessage的对象，这个WKScriptMessage对象有个name属性，拿到之后你会发现，就是我们注册的NativeMethod这个字符串，这时候你就可以手动调用Native的方法了。如果有多个方法需要调用的话怎么办，看到JavaScript中postMessage()方法有一个参数了没有，可以根据这里的参数来区分调用原生App的哪个方法。</p>
-<figure class="highlight objectivec"><table><tr><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)userContentController:(<span class="built_in">WKUserContentController</span> *)userContentController didReceiveScriptMessage:(<span class="built_in">WKScriptMessage</span> *)message &#123;</span><br><span class="line">        <span class="comment">// 判断是否是调用原生的</span></span><br><span class="line">        <span class="keyword">if</span> ([<span class="string">@&quot;NativeMethod&quot;</span> isEqualToString:message.name]) &#123;</span><br><span class="line">            <span class="comment">// 判断message的内容，然后做相应的操作</span></span><br><span class="line">            <span class="keyword">if</span> ([<span class="string">@&quot;close&quot;</span> isEqualToString:message.body]) &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h1 id="网页支持滑动返回"><a href="#网页支持滑动返回" class="headerlink" title="网页支持滑动返回"></a>网页支持滑动返回</h1><p>  WKWebView比UIWebView有很多优势，在WKWebView中通过设置一个属性 <code>allowsBackForwardNavigationGestures</code> 就可以实现滑动返回，而UIWebView需要写很多代码来达到滑动返回效果。</p>
-<p>项目最低支持iOS7，所以只能使用UIKit中的UIWebView，而新的WKWebView是支持iOS8+</p>
-<ul>
-<li>WKWebView的内存开销要比UIWebView小很多</li>
-<li>拥有高达60FPS滚动刷新率及内置手势</li>
-<li>支持了更多的HTML5特性</li>
-<li>html页面和WKWebView交互更方便</li>
-<li>Safari相同的<code>JavaScript</code>引擎</li>
-<li>提供常用的属性，如加载网页进度的属性estimatedProgress</li>
-</ul>
-<p><strong>实现思路：</strong>在UIWebView的Delegate的shouldStart代理方法中，把当前页面截一张图，把这张截图和对应的Url保存到一个数组中，在WebView上加一个UIPanGestureRecognizer拖拽手势，在手势代理方法中监听状态的变化，当手指滑动时，会把当前的截图和上一页截图，根据手势的移动的位置，做随手指移动的动画。然后重新请求上一个网页<br>测试过程中发现，有时滑动好使有时不好使，最后了解到这个<code>Pan</code>手势和UIScrollview的<code>Pan</code>手势会冲突</p>
-<ol>
-<li><p><code>[webpageView.scrollView.panGestureRecognizer requireGestureRecognizerToFail:_swipePanGesture];</code> 设置先识别滑动返回,在识别滚动的手势，偶尔会造成某些网站网页，不能滚动。</p>
-</li>
-<li><p>设置手势代理方法 <code>- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer</code> 返回YES,允许手势能同时识别。完美解决手势冲突</p>
-</li>
-</ol>
-<hr>
-<p>欢迎指正😝</p>
-<h1 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h1><p><a href="http://www.jianshu.com/p/403853b63537">WKWebView使用</a><br><a href="http://nshipster.cn/wkwebkit/">WKWeb​View(AFN作者)</a><br><a href="https://lvwenhan.com/ios/460.html">自己动手打造基于 WKWebView 的混合开发框架</a>收藏一下</p>
-]]></content>
-      <tags>
-        <tag>JavaScript</tag>
-        <tag>Objective-C</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>NSURLProtocol黑魔法</title>
     <url>/2017/06/29/NSURLProtocol%E9%BB%91%E9%AD%94%E6%B3%95/</url>
     <content><![CDATA[<meta name="referrer" content="no-referrer" >
@@ -187,44 +128,62 @@
       </tags>
   </entry>
   <entry>
-    <title>Swift闭包</title>
-    <url>/2017/03/05/Swift%E9%97%AD%E5%8C%85/</url>
-    <content><![CDATA[<h1 id="闭包概念"><a href="#闭包概念" class="headerlink" title="闭包概念"></a>闭包概念</h1><p><strong>闭包</strong>是可以在你的代码中被传递和引用的功能性独立模块。Swift 中的闭包和 C 以及 Objective-C 中的 blocks 很像，还有其他语言中的匿名函数也类似。<br>在Swift中，提供三类闭包：</p>
-<ul>
-<li>全局函数是一个有名字但不会捕获任何值的闭包。</li>
-<li>嵌套（内嵌）函数是一个有名字并可以捕获到其封闭函数域内的值的闭包。</li>
-<li>闭包表达式是一个利用轻量级语法所写的，可以捕获其上下文中变量或常量值的匿名闭包。 </li>
+    <title>OC和JavaScript交互</title>
+    <url>/2017/05/23/OC%E5%92%8CJavaScript%E4%BA%A4%E4%BA%92/</url>
+    <content><![CDATA[<h1 id="UIWebView与JavaScript交互"><a href="#UIWebView与JavaScript交互" class="headerlink" title="UIWebView与JavaScript交互"></a>UIWebView与JavaScript交互</h1><h2 id="基本的概念"><a href="#基本的概念" class="headerlink" title="基本的概念"></a>基本的概念</h2><ul>
+<li><code>JavaScriptCore</code>是封装了JavaScript和Objective-C桥接的Objective-C API，只要用很少的代码，就可以做到JavaScript调用Objective-C，或者Objective-C调用JavaScript。</li>
+<li><code>JSValue</code>: 代表一个JavaScript实体，一个JSValue可以表示很多JavaScript原始类型例如boolean, integers, doubles，甚至包括对象和函数。</li>
+<li><code>JSContext</code>: 代表JavaScript的运行环境，你需要用JSContext来执行JavaScript代码。所有的JSValue都是捆绑在一个JSContext上的.</li>
+<li><code>JSExport</code>: 这是一个协议，可以用这个协议来将原生对象导出给JavaScript，这样原生对象的属性或方法就成为了JavaScript的属性或方法，非常神奇。</li>
 </ul>
-<h1 id="闭包表达式"><a href="#闭包表达式" class="headerlink" title="闭包表达式"></a>闭包表达式</h1><p>闭包表达式语法可以使用常量、变量和inout类型作为参数，不提供默认值。 也可以在参数列表的最后使用可变参数。 元组也可以作为参数和返回值。</p>
-<p>闭包表达式语法的一般形式：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">&#123; (parameters) -&gt; (<span class="keyword">return</span> type) <span class="keyword">in</span></span><br><span class="line">    statements</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>关键字 in 来区分闭包的头和闭包函数体。</li>
+<h2 id="OC调用JS的方法"><a href="#OC调用JS的方法" class="headerlink" title="OC调用JS的方法"></a>OC调用JS的方法</h2><p>采用stringByEvaluatingJavaScriptFromString写入JS代码，调用JS的方法<br>采用系统框架&lt;JavaScriptCore/JavaScriptCore.h&gt;的JSContext +evaluateScript调用JS代码</p>
+<figure class="highlight objectivec"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 1.UIWebView执行JS代码</span></span><br><span class="line">[<span class="keyword">self</span>.webView stringByEvaluatingJavaScriptFromString:<span class="string">@&quot;showName(&#x27;Willi&#x27;)&quot;</span>];</span><br><span class="line"><span class="comment">// 2.JavaScriptCore执行JS</span></span><br><span class="line">JSContext *context = [[JSContext alloc] init];</span><br><span class="line"><span class="built_in">NSString</span> *jsCode = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;alert(\&quot;我是OC里面的js方法\&quot;)&quot;</span>];</span><br><span class="line">[context evaluateScript:jsCode];</span><br></pre></td></tr></table></figure>
+<h2 id="JS调用OC的方法"><a href="#JS调用OC的方法" class="headerlink" title="JS调用OC的方法"></a>JS调用OC的方法</h2><ol>
+<li>采用传统的方法，加载WebView的时候截取URL的方式</li>
+<li>利用苹果系统框架&lt;JavaScriptCore/JavaScriptCore.h&gt;的JSContext的block方式 或者 JSExport协议方式</li>
+</ol>
+<figure class="highlight objectivec"><table><tr><td class="code"><pre><span class="line"><span class="comment">//注册printAandB方法</span></span><br><span class="line"> context[<span class="string">@&quot;printAandB&quot;</span>] = ^(<span class="built_in">NSString</span> *A ,<span class="built_in">NSString</span> *B) &#123;</span><br><span class="line">     <span class="built_in">NSLog</span>(<span class="string">@&quot;%@,%@&quot;</span>,A,B);</span><br><span class="line"> &#125;;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//自定义协议，并且协议遵守&lt;JSExport&gt;协议</span></span><br><span class="line"><span class="class"><span class="keyword">@protocol</span> <span class="title">WuKongJSExport</span> &lt;<span class="title">JSExport</span>&gt;</span></span><br><span class="line">JSExportAs(Invoke, - (<span class="keyword">void</span>)invokeKey:(<span class="built_in">NSString</span> *)key value:(<span class="built_in">NSString</span> *)value);</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<h1 id="WKWebView与JavaScript的交互"><a href="#WKWebView与JavaScript的交互" class="headerlink" title="WKWebView与JavaScript的交互"></a>WKWebView与JavaScript的交互</h1><h2 id="WKWebView"><a href="#WKWebView" class="headerlink" title="WKWebView"></a>WKWebView</h2><p><strong>WKWebView</strong>是苹果在iOS 8中引入的新组件，目的是给出一个新的高性能的WebView解决方案，摆脱过去 UIWebView的老、旧、笨重，特别是内存占用量巨大的问题。</p>
+<h2 id="OC调用JS的方法-1"><a href="#OC调用JS的方法-1" class="headerlink" title="OC调用JS的方法"></a>OC调用JS的方法</h2><ul>
+<li>原生调用JavaScript的代码需要在页面加载完成之后，就是在 - webView:didFinishNavigation:代理方法里面</li>
 </ul>
-<p>Swift 的标准库提供了一个叫做 sorted(by:) 的方法，会根据你提供的排序闭包将已知类型的数组的值进行排序。使用sorted方法对闭包简化<br>例子：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> names <span class="operator">=</span> [<span class="string">&quot;Chris&quot;</span>,<span class="string">&quot;Ewa&quot;</span>,<span class="string">&quot;Barry&quot;</span>,<span class="string">&quot;Daniella”]`</span></span><br><span class="line"><span class="string">// 普通函数</span></span><br><span class="line"><span class="string">func backward(_ s1: String, _ s2: String) -&gt; Bool &#123;</span></span><br><span class="line"><span class="string">    return s1 &gt; s2</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">var reversedNames = names.sorted(by: backward)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 使用闭包表达式</span></span><br><span class="line"><span class="string">reversedNames = names.sorted(by: &#123; (s1: String, s2: String) -&gt; Bool in</span></span><br><span class="line"><span class="string">    return s1 &gt; s2</span></span><br><span class="line"><span class="string">&#125;)</span></span><br></pre></td></tr></table></figure>
-<p>类型推断（因排序闭包为实际参数来传递给函数，故 Swift 能推断它的形式参数类型和返回类型。）</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">reversedNames <span class="operator">=</span> names.sorted(by: &#123; s1, s2 <span class="keyword">in</span> <span class="keyword">return</span> s1 <span class="operator">&gt;</span> s2 &#125; )</span><br></pre></td></tr></table></figure>
-<p>从单表达式闭包隐式返回，return 关键字能够被省略<br><code>reversedNames = names.sorted(by: &#123; s1, s2 in s1 &gt; s2 &#125; )</code><br>简写的实际参数名<br><code>reversedNames = names.sorted(by: &#123; $0 &gt; $1 &#125; )</code><br>还有一种更加简化的形式，直接使用操作符&gt;,可以写出这样的前提是闭包定义刚好和操作符的定义吻合。<br><code>reversedNames = names.sorted(by: &gt;)</code></p>
-<h1 id="逃逸和非逃逸闭包"><a href="#逃逸和非逃逸闭包" class="headerlink" title="逃逸和非逃逸闭包"></a>逃逸和非逃逸闭包</h1><p>Swift 的闭包分为 逃逸 与 非逃逸 两种。一个接受逃逸闭包作为参数的函数，逃逸闭包（可能）会在函数返回之后才被调用————也就是说，闭包逃离了函数的作用域。</p>
-<p>逃逸闭包通常与异步控制流相关联，如下例所示：  </p>
-<ul>
-<li>一个函数开启了一个后台任务后立即返回，然后通过一个完成回调（completion handler）报告后台任务的结果。</li>
-<li>一个视图类把『按钮点击事件执行的操作』封装成一个闭包，并存储为自身的属性。每次用户点击按钮时，都会调用该闭包。闭包会逃离属性的设置器（setter）。</li>
-<li>你使用 <code>DispatchQueue.async</code> 在派发队列（dispatch queue）上安排了一个异步执行的任务。这个闭包任务的生命周期会比 async 的作用域活得更长久。<br>与之对应的 <code>DispatchQueue.sync</code>，它会一直等到任务闭包执行完毕后才返回——闭包永远不会逃逸。map 以及标准库中其他的序列和数组的算法也是非逃逸的。</li>
+<figure class="highlight objectivec"><table><tr><td class="code"><pre><span class="line">[webView evaluateJavaScript:<span class="string">@&quot;showAlert(&#x27;奏是一个弹框&#x27;)&quot;</span> completionHandler:^(<span class="keyword">id</span> item, <span class="built_in">NSError</span> * _Nullable error) &#123;</span><br><span class="line">        <span class="comment">// Block中处理是否通过了或者执行JS错误的代码</span></span><br><span class="line"> &#125;];</span><br></pre></td></tr></table></figure>
+<h2 id="JS调用OC的方法-1"><a href="#JS调用OC的方法-1" class="headerlink" title="JS调用OC的方法"></a>JS调用OC的方法</h2><ul>
+<li><p>JavaScript的配置<br>JavaScript调用Native的方法就需要前端和Native的小伙伴们配合了，需要前端的小伙伴在JS的方法中调用：<br><code>window.webkit.messageHandlers.NativeMethod.postMessage(&quot;就是一个消息啊&quot;);</code></p>
+</li>
+<li><p>Native App的代码配置</p>
+</li>
 </ul>
-<h2 id="为什么区分闭包的逃逸性和非逃逸性如此重要"><a href="#为什么区分闭包的逃逸性和非逃逸性如此重要" class="headerlink" title="为什么区分闭包的逃逸性和非逃逸性如此重要"></a>为什么区分闭包的逃逸性和非逃逸性如此重要</h2><p>简单来说，是为了管理内存。一个闭包会强引用它捕获的所有对象————如果你在闭包中访问了当前对象中的任意属性或实例方法，闭包会持有当前对象，因为这些方法和属性都隐性地携带了一个 self 参数。<br>这种方式很容易导致循环引用，这解释了为什么编译器会要求你在闭包中显式地写出对 self 的引用。这迫使你考虑潜在的循环引用，并使用捕获列表手动处理。<br>然而，使用非逃逸的闭包不会产生循环引用————编译器可以保证在函数返回时闭包会释放它捕获的所有对象。因此，编译器只要求在逃逸闭包中明确对 self 的强引用。显然，使用非逃逸闭包是一个更加愉悦的方案。</p>
+<figure class="highlight objectivec"><table><tr><td class="code"><pre><span class="line"> <span class="comment">// 创建配置</span></span><br><span class="line"> <span class="built_in">WKWebViewConfiguration</span> *config = [[<span class="built_in">WKWebViewConfiguration</span> alloc] init];</span><br><span class="line"> <span class="comment">// 创建UserContentController（提供JavaScript向webView发送消息的方法）</span></span><br><span class="line"> <span class="built_in">WKUserContentController</span>* userContent = [[<span class="built_in">WKUserContentController</span> alloc] init];</span><br><span class="line"> <span class="comment">// 添加消息处理，注意：self指代的对象需要遵守WKScriptMessageHandler协议，结束时需要移除</span></span><br><span class="line">[userContent addScriptMessageHandler:<span class="keyword">self</span> name:<span class="string">@&quot;NativeMethod&quot;</span>];</span><br><span class="line"> <span class="comment">// 将UserConttentController设置到配置文件</span></span><br><span class="line"> config.userContentController = userContent;</span><br><span class="line"> <span class="comment">// 高端的自定义配置创建WKWebView</span></span><br><span class="line"> <span class="built_in">WKWebView</span> *webView = [[<span class="built_in">WKWebView</span> alloc] initWithFrame:[<span class="built_in">UIScreen</span> mainScreen].bounds configuration:config];</span><br><span class="line"> <span class="comment">// 设置访问的URL</span></span><br><span class="line"> <span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:<span class="string">@&quot;http://www.jianshu.com&quot;</span>];</span><br><span class="line"> <span class="comment">// 根据URL创建请求</span></span><br><span class="line"> <span class="built_in">NSURLRequest</span> *request = [<span class="built_in">NSURLRequest</span> requestWithURL:url];</span><br><span class="line"> <span class="comment">// WKWebView加载请求</span></span><br><span class="line"> [webView loadRequest:request];</span><br><span class="line"> <span class="comment">// 将WKWebView添加到视图</span></span><br><span class="line"> [<span class="keyword">self</span>.view addSubview:webView];</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+<p>可以看到，添加消息处理的handler的name，就是JavaScript中调用时候的<code>NativeMethod</code>，这两个要保持一致。请把URL换成你自己的。<br>配置当前ViewController为MessageHandler，需要服从<code>WKScriptMessageHandler</code>协议，如果出现警告⚠️，请检查是否服从了这个协议。<br><strong>注意！注意！注意：</strong>上面将当前ViewController设置为MessageHandler之后需要在当前ViewController销毁前将其移除，否则会造成内存泄漏。</p>
+<figure class="highlight objectivec"><table><tr><td class="code"><pre><span class="line">[webView.configuration.userContentController removeScriptMessageHandlerForName:<span class="string">@&quot;NativeMethod&quot;</span>];</span><br></pre></td></tr></table></figure>
+<p>现在万事俱备，只欠东风了。可以看到WKScriptMessageHandler的协议里面只有一个方法，就是：<code>- userContentController:didReceiveScriptMessage:</code>  </p>
+<p>相信聪明的你已经猜到了。是的，就是在这个代理方法里面操作：如果JavaScript执行已经写好的：window.webkit.messageHandlers.NativeMethod.postMessage(“就是一个消息啊”);这行代码，这个代理方法就会走，并且会有个WKScriptMessage的对象，这个WKScriptMessage对象有个name属性，拿到之后你会发现，就是我们注册的NativeMethod这个字符串，这时候你就可以手动调用Native的方法了。如果有多个方法需要调用的话怎么办，看到JavaScript中postMessage()方法有一个参数了没有，可以根据这里的参数来区分调用原生App的哪个方法。</p>
+<figure class="highlight objectivec"><table><tr><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)userContentController:(<span class="built_in">WKUserContentController</span> *)userContentController didReceiveScriptMessage:(<span class="built_in">WKScriptMessage</span> *)message &#123;</span><br><span class="line">        <span class="comment">// 判断是否是调用原生的</span></span><br><span class="line">        <span class="keyword">if</span> ([<span class="string">@&quot;NativeMethod&quot;</span> isEqualToString:message.name]) &#123;</span><br><span class="line">            <span class="comment">// 判断message的内容，然后做相应的操作</span></span><br><span class="line">            <span class="keyword">if</span> ([<span class="string">@&quot;close&quot;</span> isEqualToString:message.body]) &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="网页支持滑动返回"><a href="#网页支持滑动返回" class="headerlink" title="网页支持滑动返回"></a>网页支持滑动返回</h1><p>  WKWebView比UIWebView有很多优势，在WKWebView中通过设置一个属性 <code>allowsBackForwardNavigationGestures</code> 就可以实现滑动返回，而UIWebView需要写很多代码来达到滑动返回效果。</p>
+<p>项目最低支持iOS7，所以只能使用UIKit中的UIWebView，而新的WKWebView是支持iOS8+</p>
 <ul>
-<li>从 Swift 3.0 开始，非逃逸闭包变成了闭包参数的默认形式。如果你想允许一个闭包参数逃逸，需要给这个类型增加一个 @escaping 的标注。</li>
+<li>WKWebView的内存开销要比UIWebView小很多</li>
+<li>拥有高达60FPS滚动刷新率及内置手势</li>
+<li>支持了更多的HTML5特性</li>
+<li>html页面和WKWebView交互更方便</li>
+<li>Safari相同的<code>JavaScript</code>引擎</li>
+<li>提供常用的属性，如加载网页进度的属性estimatedProgress</li>
 </ul>
-<h2 id="解决闭包循环引用"><a href="#解决闭包循环引用" class="headerlink" title="解决闭包循环引用"></a>解决闭包循环引用</h2><p>解决闭包的循环强引用<br>Swift 提供了一种优雅的方法来解决这个问题，称之为闭包捕获列表（ closuer capture list ）<br>捕获列表中的每一项都由 weak 或 unowned 关键字与类实例的引用（如 self ）成对组成</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">lazy</span> <span class="keyword">var</span> someClosure: (<span class="type">Int</span>, <span class="type">String</span>) -&gt; <span class="type">String</span> <span class="operator">=</span> &#123;</span><br><span class="line">    [<span class="keyword">unowned</span> <span class="keyword">self</span>, <span class="keyword">weak</span> delegate <span class="operator">=</span> <span class="keyword">self</span>.delegate<span class="operator">!</span>] (index: <span class="type">Int</span>, stringToProcess: <span class="type">String</span>) -&gt; <span class="type">String</span> <span class="keyword">in</span></span><br><span class="line">    <span class="comment">// closure body goes here</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>实现思路：</strong>在UIWebView的Delegate的shouldStart代理方法中，把当前页面截一张图，把这张截图和对应的Url保存到一个数组中，在WebView上加一个UIPanGestureRecognizer拖拽手势，在手势代理方法中监听状态的变化，当手指滑动时，会把当前的截图和上一页截图，根据手势的移动的位置，做随手指移动的动画。然后重新请求上一个网页<br>测试过程中发现，有时滑动好使有时不好使，最后了解到这个<code>Pan</code>手势和UIScrollview的<code>Pan</code>手势会冲突</p>
+<ol>
+<li><p><code>[webpageView.scrollView.panGestureRecognizer requireGestureRecognizerToFail:_swipePanGesture];</code> 设置先识别滑动返回,在识别滚动的手势，偶尔会造成某些网站网页，不能滚动。</p>
+</li>
+<li><p>设置手势代理方法 <code>- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer</code> 返回YES,允许手势能同时识别。完美解决手势冲突</p>
+</li>
+</ol>
 <hr>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://swift.gg/2016/11/15/optional-non-escaping-closures/">闭包逃逸和非逃逸</a></p>
+<p>欢迎指正😝</p>
+<h1 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h1><p><a href="http://www.jianshu.com/p/403853b63537">WKWebView使用</a><br><a href="http://nshipster.cn/wkwebkit/">WKWeb​View(AFN作者)</a><br><a href="https://lvwenhan.com/ios/460.html">自己动手打造基于 WKWebView 的混合开发框架</a>收藏一下</p>
 ]]></content>
       <tags>
-        <tag>Swift</tag>
-        <tag>闭包</tag>
+        <tag>JavaScript</tag>
+        <tag>Objective-C</tag>
       </tags>
   </entry>
   <entry>
@@ -285,6 +244,47 @@
 ]]></content>
       <tags>
         <tag>swift</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Swift闭包</title>
+    <url>/2017/03/05/Swift%E9%97%AD%E5%8C%85/</url>
+    <content><![CDATA[<h1 id="闭包概念"><a href="#闭包概念" class="headerlink" title="闭包概念"></a>闭包概念</h1><p><strong>闭包</strong>是可以在你的代码中被传递和引用的功能性独立模块。Swift 中的闭包和 C 以及 Objective-C 中的 blocks 很像，还有其他语言中的匿名函数也类似。<br>在Swift中，提供三类闭包：</p>
+<ul>
+<li>全局函数是一个有名字但不会捕获任何值的闭包。</li>
+<li>嵌套（内嵌）函数是一个有名字并可以捕获到其封闭函数域内的值的闭包。</li>
+<li>闭包表达式是一个利用轻量级语法所写的，可以捕获其上下文中变量或常量值的匿名闭包。 </li>
+</ul>
+<h1 id="闭包表达式"><a href="#闭包表达式" class="headerlink" title="闭包表达式"></a>闭包表达式</h1><p>闭包表达式语法可以使用常量、变量和inout类型作为参数，不提供默认值。 也可以在参数列表的最后使用可变参数。 元组也可以作为参数和返回值。</p>
+<p>闭包表达式语法的一般形式：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">&#123; (parameters) -&gt; (<span class="keyword">return</span> type) <span class="keyword">in</span></span><br><span class="line">    statements</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>关键字 in 来区分闭包的头和闭包函数体。</li>
+</ul>
+<p>Swift 的标准库提供了一个叫做 sorted(by:) 的方法，会根据你提供的排序闭包将已知类型的数组的值进行排序。使用sorted方法对闭包简化<br>例子：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> names <span class="operator">=</span> [<span class="string">&quot;Chris&quot;</span>,<span class="string">&quot;Ewa&quot;</span>,<span class="string">&quot;Barry&quot;</span>,<span class="string">&quot;Daniella”]`</span></span><br><span class="line"><span class="string">// 普通函数</span></span><br><span class="line"><span class="string">func backward(_ s1: String, _ s2: String) -&gt; Bool &#123;</span></span><br><span class="line"><span class="string">    return s1 &gt; s2</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">var reversedNames = names.sorted(by: backward)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 使用闭包表达式</span></span><br><span class="line"><span class="string">reversedNames = names.sorted(by: &#123; (s1: String, s2: String) -&gt; Bool in</span></span><br><span class="line"><span class="string">    return s1 &gt; s2</span></span><br><span class="line"><span class="string">&#125;)</span></span><br></pre></td></tr></table></figure>
+<p>类型推断（因排序闭包为实际参数来传递给函数，故 Swift 能推断它的形式参数类型和返回类型。）</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">reversedNames <span class="operator">=</span> names.sorted(by: &#123; s1, s2 <span class="keyword">in</span> <span class="keyword">return</span> s1 <span class="operator">&gt;</span> s2 &#125; )</span><br></pre></td></tr></table></figure>
+<p>从单表达式闭包隐式返回，return 关键字能够被省略<br><code>reversedNames = names.sorted(by: &#123; s1, s2 in s1 &gt; s2 &#125; )</code><br>简写的实际参数名<br><code>reversedNames = names.sorted(by: &#123; $0 &gt; $1 &#125; )</code><br>还有一种更加简化的形式，直接使用操作符&gt;,可以写出这样的前提是闭包定义刚好和操作符的定义吻合。<br><code>reversedNames = names.sorted(by: &gt;)</code></p>
+<h1 id="逃逸和非逃逸闭包"><a href="#逃逸和非逃逸闭包" class="headerlink" title="逃逸和非逃逸闭包"></a>逃逸和非逃逸闭包</h1><p>Swift 的闭包分为 逃逸 与 非逃逸 两种。一个接受逃逸闭包作为参数的函数，逃逸闭包（可能）会在函数返回之后才被调用————也就是说，闭包逃离了函数的作用域。</p>
+<p>逃逸闭包通常与异步控制流相关联，如下例所示：  </p>
+<ul>
+<li>一个函数开启了一个后台任务后立即返回，然后通过一个完成回调（completion handler）报告后台任务的结果。</li>
+<li>一个视图类把『按钮点击事件执行的操作』封装成一个闭包，并存储为自身的属性。每次用户点击按钮时，都会调用该闭包。闭包会逃离属性的设置器（setter）。</li>
+<li>你使用 <code>DispatchQueue.async</code> 在派发队列（dispatch queue）上安排了一个异步执行的任务。这个闭包任务的生命周期会比 async 的作用域活得更长久。<br>与之对应的 <code>DispatchQueue.sync</code>，它会一直等到任务闭包执行完毕后才返回——闭包永远不会逃逸。map 以及标准库中其他的序列和数组的算法也是非逃逸的。</li>
+</ul>
+<h2 id="为什么区分闭包的逃逸性和非逃逸性如此重要"><a href="#为什么区分闭包的逃逸性和非逃逸性如此重要" class="headerlink" title="为什么区分闭包的逃逸性和非逃逸性如此重要"></a>为什么区分闭包的逃逸性和非逃逸性如此重要</h2><p>简单来说，是为了管理内存。一个闭包会强引用它捕获的所有对象————如果你在闭包中访问了当前对象中的任意属性或实例方法，闭包会持有当前对象，因为这些方法和属性都隐性地携带了一个 self 参数。<br>这种方式很容易导致循环引用，这解释了为什么编译器会要求你在闭包中显式地写出对 self 的引用。这迫使你考虑潜在的循环引用，并使用捕获列表手动处理。<br>然而，使用非逃逸的闭包不会产生循环引用————编译器可以保证在函数返回时闭包会释放它捕获的所有对象。因此，编译器只要求在逃逸闭包中明确对 self 的强引用。显然，使用非逃逸闭包是一个更加愉悦的方案。</p>
+<ul>
+<li>从 Swift 3.0 开始，非逃逸闭包变成了闭包参数的默认形式。如果你想允许一个闭包参数逃逸，需要给这个类型增加一个 @escaping 的标注。</li>
+</ul>
+<h2 id="解决闭包循环引用"><a href="#解决闭包循环引用" class="headerlink" title="解决闭包循环引用"></a>解决闭包循环引用</h2><p>解决闭包的循环强引用<br>Swift 提供了一种优雅的方法来解决这个问题，称之为闭包捕获列表（ closuer capture list ）<br>捕获列表中的每一项都由 weak 或 unowned 关键字与类实例的引用（如 self ）成对组成</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">lazy</span> <span class="keyword">var</span> someClosure: (<span class="type">Int</span>, <span class="type">String</span>) -&gt; <span class="type">String</span> <span class="operator">=</span> &#123;</span><br><span class="line">    [<span class="keyword">unowned</span> <span class="keyword">self</span>, <span class="keyword">weak</span> delegate <span class="operator">=</span> <span class="keyword">self</span>.delegate<span class="operator">!</span>] (index: <span class="type">Int</span>, stringToProcess: <span class="type">String</span>) -&gt; <span class="type">String</span> <span class="keyword">in</span></span><br><span class="line">    <span class="comment">// closure body goes here</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://swift.gg/2016/11/15/optional-non-escaping-closures/">闭包逃逸和非逃逸</a></p>
+]]></content>
+      <tags>
+        <tag>Swift</tag>
+        <tag>闭包</tag>
       </tags>
   </entry>
   <entry>
