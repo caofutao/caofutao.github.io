@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="UIWebView与JavaScript交互基本的概念 JavaScriptCore是封装了JavaScript和Objective-C桥接的Objective-C API，只要用很少的代码，就可以做到JavaScript调用Objective-C，或者Objective-C调用JavaScript。 JSValue: 代表一个JavaScript实体，一个JSValue可以表示很多JavaScr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OC和JavaScript交互">
+<meta property="og:url" content="http://yoursite.com/2017/05/23/OC%E5%92%8CJavaScript%E4%BA%A4%E4%BA%92/index.html">
+<meta property="og:site_name" content="威立山">
+<meta property="og:description" content="UIWebView与JavaScript交互基本的概念 JavaScriptCore是封装了JavaScript和Objective-C桥接的Objective-C API，只要用很少的代码，就可以做到JavaScript调用Objective-C，或者Objective-C调用JavaScript。 JSValue: 代表一个JavaScript实体，一个JSValue可以表示很多JavaScr">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-05-23T15:37:05.000Z">
+<meta property="article:modified_time" content="2017-07-03T16:50:56.000Z">
+<meta property="article:author" content="Willishine">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="Objective-C">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2017/05/23/OC%E5%92%8CJavaScript%E4%BA%A4%E4%BA%92/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>OC和JavaScript交互 | 威立山</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="威立山" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">威立山</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录心路历程</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/23/OC%E5%92%8CJavaScript%E4%BA%A4%E4%BA%92/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/headImage.jpg">
+      <meta itemprop="name" content="Willishine">
+      <meta itemprop="description" content="Day Day Up!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="威立山">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          OC和JavaScript交互
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-05-23 23:37:05" itemprop="dateCreated datePublished" datetime="2017-05-23T23:37:05+08:00">2017-05-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2017-07-04 00:50:56" itemprop="dateModified" datetime="2017-07-04T00:50:56+08:00">2017-07-04</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="UIWebView与JavaScript交互"><a href="#UIWebView与JavaScript交互" class="headerlink" title="UIWebView与JavaScript交互"></a>UIWebView与JavaScript交互</h1><h2 id="基本的概念"><a href="#基本的概念" class="headerlink" title="基本的概念"></a>基本的概念</h2><ul>
+<li><code>JavaScriptCore</code>是封装了JavaScript和Objective-C桥接的Objective-C API，只要用很少的代码，就可以做到JavaScript调用Objective-C，或者Objective-C调用JavaScript。</li>
+<li><code>JSValue</code>: 代表一个JavaScript实体，一个JSValue可以表示很多JavaScript原始类型例如boolean, integers, doubles，甚至包括对象和函数。</li>
+<li><code>JSContext</code>: 代表JavaScript的运行环境，你需要用JSContext来执行JavaScript代码。所有的JSValue都是捆绑在一个JSContext上的.</li>
+<li><code>JSExport</code>: 这是一个协议，可以用这个协议来将原生对象导出给JavaScript，这样原生对象的属性或方法就成为了JavaScript的属性或方法，非常神奇。</li>
+</ul>
+<h2 id="OC调用JS的方法"><a href="#OC调用JS的方法" class="headerlink" title="OC调用JS的方法"></a>OC调用JS的方法</h2><p>采用stringByEvaluatingJavaScriptFromString写入JS代码，调用JS的方法<br>采用系统框架&lt;JavaScriptCore/JavaScriptCore.h&gt;的JSContext +evaluateScript调用JS代码</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1.UIWebView执行JS代码</span></span><br><span class="line">[<span class="keyword">self</span>.webView stringByEvaluatingJavaScriptFromString:<span class="string">@&quot;showName(&#x27;Willi&#x27;)&quot;</span>];</span><br><span class="line"><span class="comment">// 2.JavaScriptCore执行JS</span></span><br><span class="line">JSContext *context = [[JSContext alloc] init];</span><br><span class="line"><span class="built_in">NSString</span> *jsCode = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;alert(\&quot;我是OC里面的js方法\&quot;)&quot;</span>];</span><br><span class="line">[context evaluateScript:jsCode];</span><br></pre></td></tr></table></figure>
+<h2 id="JS调用OC的方法"><a href="#JS调用OC的方法" class="headerlink" title="JS调用OC的方法"></a>JS调用OC的方法</h2><ol>
+<li>采用传统的方法，加载WebView的时候截取URL的方式</li>
+<li>利用苹果系统框架&lt;JavaScriptCore/JavaScriptCore.h&gt;的JSContext的block方式 或者 JSExport协议方式</li>
+</ol>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//注册printAandB方法</span></span><br><span class="line"> context[<span class="string">@&quot;printAandB&quot;</span>] = ^(<span class="built_in">NSString</span> *A ,<span class="built_in">NSString</span> *B) &#123;</span><br><span class="line">     <span class="built_in">NSLog</span>(<span class="string">@&quot;%@,%@&quot;</span>,A,B);</span><br><span class="line"> &#125;;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//自定义协议，并且协议遵守&lt;JSExport&gt;协议</span></span><br><span class="line"><span class="class"><span class="keyword">@protocol</span> <span class="title">WuKongJSExport</span> &lt;<span class="title">JSExport</span>&gt;</span></span><br><span class="line">JSExportAs(Invoke, - (<span class="keyword">void</span>)invokeKey:(<span class="built_in">NSString</span> *)key value:(<span class="built_in">NSString</span> *)value);</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<h1 id="WKWebView与JavaScript的交互"><a href="#WKWebView与JavaScript的交互" class="headerlink" title="WKWebView与JavaScript的交互"></a>WKWebView与JavaScript的交互</h1><h2 id="WKWebView"><a href="#WKWebView" class="headerlink" title="WKWebView"></a>WKWebView</h2><p><strong>WKWebView</strong>是苹果在iOS 8中引入的新组件，目的是给出一个新的高性能的WebView解决方案，摆脱过去 UIWebView的老、旧、笨重，特别是内存占用量巨大的问题。</p>
+<h2 id="OC调用JS的方法-1"><a href="#OC调用JS的方法-1" class="headerlink" title="OC调用JS的方法"></a>OC调用JS的方法</h2><ul>
+<li>原生调用JavaScript的代码需要在页面加载完成之后，就是在 - webView:didFinishNavigation:代理方法里面</li>
+</ul>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[webView evaluateJavaScript:<span class="string">@&quot;showAlert(&#x27;奏是一个弹框&#x27;)&quot;</span> completionHandler:^(<span class="keyword">id</span> item, <span class="built_in">NSError</span> * _Nullable error) &#123;</span><br><span class="line">        <span class="comment">// Block中处理是否通过了或者执行JS错误的代码</span></span><br><span class="line"> &#125;];</span><br></pre></td></tr></table></figure>
+<h2 id="JS调用OC的方法-1"><a href="#JS调用OC的方法-1" class="headerlink" title="JS调用OC的方法"></a>JS调用OC的方法</h2><ul>
+<li><p>JavaScript的配置<br>JavaScript调用Native的方法就需要前端和Native的小伙伴们配合了，需要前端的小伙伴在JS的方法中调用：<br><code>window.webkit.messageHandlers.NativeMethod.postMessage(&quot;就是一个消息啊&quot;);</code></p>
+</li>
+<li><p>Native App的代码配置</p>
+</li>
+</ul>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// 创建配置</span></span><br><span class="line"> <span class="built_in">WKWebViewConfiguration</span> *config = [[<span class="built_in">WKWebViewConfiguration</span> alloc] init];</span><br><span class="line"> <span class="comment">// 创建UserContentController（提供JavaScript向webView发送消息的方法）</span></span><br><span class="line"> <span class="built_in">WKUserContentController</span>* userContent = [[<span class="built_in">WKUserContentController</span> alloc] init];</span><br><span class="line"> <span class="comment">// 添加消息处理，注意：self指代的对象需要遵守WKScriptMessageHandler协议，结束时需要移除</span></span><br><span class="line">[userContent addScriptMessageHandler:<span class="keyword">self</span> name:<span class="string">@&quot;NativeMethod&quot;</span>];</span><br><span class="line"> <span class="comment">// 将UserConttentController设置到配置文件</span></span><br><span class="line"> config.userContentController = userContent;</span><br><span class="line"> <span class="comment">// 高端的自定义配置创建WKWebView</span></span><br><span class="line"> <span class="built_in">WKWebView</span> *webView = [[<span class="built_in">WKWebView</span> alloc] initWithFrame:[<span class="built_in">UIScreen</span> mainScreen].bounds configuration:config];</span><br><span class="line"> <span class="comment">// 设置访问的URL</span></span><br><span class="line"> <span class="built_in">NSURL</span> *url = [<span class="built_in">NSURL</span> URLWithString:<span class="string">@&quot;http://www.jianshu.com&quot;</span>];</span><br><span class="line"> <span class="comment">// 根据URL创建请求</span></span><br><span class="line"> <span class="built_in">NSURLRequest</span> *request = [<span class="built_in">NSURLRequest</span> requestWithURL:url];</span><br><span class="line"> <span class="comment">// WKWebView加载请求</span></span><br><span class="line"> [webView loadRequest:request];</span><br><span class="line"> <span class="comment">// 将WKWebView添加到视图</span></span><br><span class="line"> [<span class="keyword">self</span>.view addSubview:webView];</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+<p>可以看到，添加消息处理的handler的name，就是JavaScript中调用时候的<code>NativeMethod</code>，这两个要保持一致。请把URL换成你自己的。<br>配置当前ViewController为MessageHandler，需要服从<code>WKScriptMessageHandler</code>协议，如果出现警告⚠️，请检查是否服从了这个协议。<br><strong>注意！注意！注意：</strong>上面将当前ViewController设置为MessageHandler之后需要在当前ViewController销毁前将其移除，否则会造成内存泄漏。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[webView.configuration.userContentController removeScriptMessageHandlerForName:<span class="string">@&quot;NativeMethod&quot;</span>];</span><br></pre></td></tr></table></figure>
+<p>现在万事俱备，只欠东风了。可以看到WKScriptMessageHandler的协议里面只有一个方法，就是：<code>- userContentController:didReceiveScriptMessage:</code>  </p>
+<p>相信聪明的你已经猜到了。是的，就是在这个代理方法里面操作：如果JavaScript执行已经写好的：window.webkit.messageHandlers.NativeMethod.postMessage(“就是一个消息啊”);这行代码，这个代理方法就会走，并且会有个WKScriptMessage的对象，这个WKScriptMessage对象有个name属性，拿到之后你会发现，就是我们注册的NativeMethod这个字符串，这时候你就可以手动调用Native的方法了。如果有多个方法需要调用的话怎么办，看到JavaScript中postMessage()方法有一个参数了没有，可以根据这里的参数来区分调用原生App的哪个方法。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)userContentController:(<span class="built_in">WKUserContentController</span> *)userContentController didReceiveScriptMessage:(<span class="built_in">WKScriptMessage</span> *)message &#123;</span><br><span class="line">        <span class="comment">// 判断是否是调用原生的</span></span><br><span class="line">        <span class="keyword">if</span> ([<span class="string">@&quot;NativeMethod&quot;</span> isEqualToString:message.name]) &#123;</span><br><span class="line">            <span class="comment">// 判断message的内容，然后做相应的操作</span></span><br><span class="line">            <span class="keyword">if</span> ([<span class="string">@&quot;close&quot;</span> isEqualToString:message.body]) &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="网页支持滑动返回"><a href="#网页支持滑动返回" class="headerlink" title="网页支持滑动返回"></a>网页支持滑动返回</h1><p>  WKWebView比UIWebView有很多优势，在WKWebView中通过设置一个属性 <code>allowsBackForwardNavigationGestures</code> 就可以实现滑动返回，而UIWebView需要写很多代码来达到滑动返回效果。</p>
+<p>项目最低支持iOS7，所以只能使用UIKit中的UIWebView，而新的WKWebView是支持iOS8+</p>
+<ul>
+<li>WKWebView的内存开销要比UIWebView小很多</li>
+<li>拥有高达60FPS滚动刷新率及内置手势</li>
+<li>支持了更多的HTML5特性</li>
+<li>html页面和WKWebView交互更方便</li>
+<li>Safari相同的<code>JavaScript</code>引擎</li>
+<li>提供常用的属性，如加载网页进度的属性estimatedProgress</li>
+</ul>
+<p><strong>实现思路：</strong>在UIWebView的Delegate的shouldStart代理方法中，把当前页面截一张图，把这张截图和对应的Url保存到一个数组中，在WebView上加一个UIPanGestureRecognizer拖拽手势，在手势代理方法中监听状态的变化，当手指滑动时，会把当前的截图和上一页截图，根据手势的移动的位置，做随手指移动的动画。然后重新请求上一个网页<br>测试过程中发现，有时滑动好使有时不好使，最后了解到这个<code>Pan</code>手势和UIScrollview的<code>Pan</code>手势会冲突</p>
+<ol>
+<li><p><code>[webpageView.scrollView.panGestureRecognizer requireGestureRecognizerToFail:_swipePanGesture];</code> 设置先识别滑动返回,在识别滚动的手势，偶尔会造成某些网站网页，不能滚动。</p>
+</li>
+<li><p>设置手势代理方法 <code>- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer</code> 返回YES,允许手势能同时识别。完美解决手势冲突</p>
+</li>
+</ol>
+<hr>
+<p>欢迎指正😝</p>
+<h1 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h1><p><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/403853b63537">WKWebView使用</a><br><a target="_blank" rel="noopener" href="http://nshipster.cn/wkwebkit/">WKWeb​View(AFN作者)</a><br><a target="_blank" rel="noopener" href="https://lvwenhan.com/ios/460.html">自己动手打造基于 WKWebView 的混合开发框架</a>收藏一下</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+              <a href="/tags/Objective-C/" rel="tag"># Objective-C</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/04/23/Wireshark%E6%8A%93%E5%8C%85/" rel="prev" title="Wireshark抓包">
+      <i class="fa fa-chevron-left"></i> Wireshark抓包
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/06/03/Willishine%E7%9A%84%E4%B8%96%E7%95%8C/" rel="next" title="My Heart Will Go On">
+      My Heart Will Go On <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#UIWebView%E4%B8%8EJavaScript%E4%BA%A4%E4%BA%92"><span class="nav-number">1.</span> <span class="nav-text">UIWebView与JavaScript交互</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-number">1.1.</span> <span class="nav-text">基本的概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OC%E8%B0%83%E7%94%A8JS%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">OC调用JS的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JS%E8%B0%83%E7%94%A8OC%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text">JS调用OC的方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WKWebView%E4%B8%8EJavaScript%E7%9A%84%E4%BA%A4%E4%BA%92"><span class="nav-number">2.</span> <span class="nav-text">WKWebView与JavaScript的交互</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#WKWebView"><span class="nav-number">2.1.</span> <span class="nav-text">WKWebView</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OC%E8%B0%83%E7%94%A8JS%E7%9A%84%E6%96%B9%E6%B3%95-1"><span class="nav-number">2.2.</span> <span class="nav-text">OC调用JS的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JS%E8%B0%83%E7%94%A8OC%E7%9A%84%E6%96%B9%E6%B3%95-1"><span class="nav-number">2.3.</span> <span class="nav-text">JS调用OC的方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BD%91%E9%A1%B5%E6%94%AF%E6%8C%81%E6%BB%91%E5%8A%A8%E8%BF%94%E5%9B%9E"><span class="nav-number">3.</span> <span class="nav-text">网页支持滑动返回</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B5%84%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text">资料</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Willishine"
+      src="/images/headImage.jpg">
+  <p class="site-author-name" itemprop="name">Willishine</p>
+  <div class="site-description" itemprop="description">Day Day Up!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Willishine</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
